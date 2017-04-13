@@ -1,0 +1,71 @@
+# ~/.gitconfig - 
+#
+# author  : Chad Mayfield (chad@chd.my)
+# license : gplv3
+
+[user]
+    name = Chad Mayfield
+    email = chad@chd.my
+    editor = vim
+
+    # https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
+    #signingkey = DEADBEEF
+
+[github]
+    user = chadmayfield
+    token = GITHUB_API
+
+[core]
+    pager = less -FRSX
+    whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
+#[apply]
+    #whitespace = fix    # warn & fix whitespace errors (like trailing wspace)
+    #whitespace = nowarn # warn only
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
+    ui = true
+    pager = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[diff]
+    renamelimit = 0
+    renames = copy    # makes diff shorter when moving/copying files
+
+[alias] 
+    br = branch
+    co = checkout
+    ci = commit
+    st = status
+    w = whatchanged
+    df = diff
+    lg = log
+    info = config --list
+    summary = log --oneline
+    pom = push origin master
+    graph = log --graph --oneline --decorate
+    changes = log --oneline --reverse
+    #tags = tag -n1 -l
+    #pop = !git stash apply && git stash clear
+    #staged = diff --cached
+
+#EOF

@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# install.sh - install dotfiles
+
+iam=$(whoami)
+backupdir="./backups"
+
+# declare array with filename *and* permissions
+dotfiles=("vim|0644", "vimrc|0644", "gitconfig|0644", "bash_profile|0644", "bashrc|0644")
+
+# make a backup directory
+mkdir -p $backupdir
+
+# loop through array and install files
+for i in ${dotfiles[@]}
+do
+    # check to make sure var is at least delimited with a pipe
+    if ! [[ $i =~ "|" ]]; then
+        echo "ERROR: Variable $i in \$dotfiles is incorrect, please fix it and"
+        echo "try install again. Continuing in 5 secs or press CTRL+C to exit."
+        sleep 5
+    fi
+
+    # split var
+    file=$(echo $i | awk -F "|" '{print $1}')
+    mode=$(echo $i | awk -F "|" '{print $2}')
+
+    # make sure the $mode is at least 4 digits
+    re='^[0-9]{4}+$'
+    if ! [[ $mode =~ $re ]]; then
+        echo "ERROR: The mode is incorrect! Listed as $mode. It must be four"
+        echo "digit numeric notation! For example, 0644 would be -rw-r--r--."
+        echo "Please fix issue & try install again. Continuing in 5 secs or "
+        echo "press CTRL+C to exit."
+    fi
+
+    # verbosely copy so user can be amazed
+    if [ -d $file ]; then
+        # backup original
+        if [ -d ~/.${file} ]; then
+            mv ~/.${file} ${backupdir}/${file}
+        fi
+
+        # copy new files into place (adding dot)
+        cp -vR $file ~/.${file}
+    else
+        if [ -f ~/.${file} ]; then
+            mv ~/.${file} ${backupdir}/${file}
+        fi
+
+        # copy new files into place (adding dot)
+        cp -v $file ~/.${file}
+    fi
+
+    # chown copied file to $iam just in case
+    chown -R $iam:$iam ~/.${file}
+
+    # chmod copied file to $mode just in case
+    chmod -R $mode ~/.${file}
+
+done
+
+#EOF
