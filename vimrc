@@ -44,10 +44,25 @@ set showmode                   " how current mode down the bottom
 set hlsearch                   " highlight searches by default
 set incsearch                  " incremental search, search as you type
 
-set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 set ls=2                       " always show status line
 set title                      " show filename in title bar
 "set list                      " show tabs, to get them out of files
+
+set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
+
+" statusline ex 1 from; http://www.plainlystated.com/2009/05/vim-statusline/
+" [10] app/models/user.rb          [ruby][Rails-model-arb]    (1/276) Top
+"------------------------------
+"set statusline=
+"set statusline+=%<                 " cut at start
+"set statusline+=%2*[%n%H%M%R%W]%*  " buffer number, and flags
+"set statusline+=%-40f              " relative path
+"set statusline+=%=                 " seperate between right/left-aligned
+"set statusline+=%1*%y%*%*          " file type
+"set statusline+=%10((%l/%L)%)      " line and column
+"set statusline+=%P                 " percentage of file
+
+
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
     set encoding=utf-8
