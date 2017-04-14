@@ -8,8 +8,8 @@ if $TERM == "xterm-256color"
 endif
 
 if &t_Co > 2 || has("gui_running")
-    syntax on                  " if term has color, turn on syntax hightlight
-    set hlsearch               " and hughlighting in last used search pattern
+    syntax on                  " if term has color,turn on syntax hightlight
+    set hlsearch               " hughlighting in last used search pattern
 endif
 
 colorscheme codeschool         " set colorcheme

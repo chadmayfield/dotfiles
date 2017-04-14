@@ -37,11 +37,6 @@ set -o noclobber
 #set -o vi
 # update win after every command
 shopt -s checkwinsize
-# just type directory to cd to it
-shopt -s autocd
-# autocorrect minor mispellings in cd
-shopt -s dirspell
-shopt -s cdspell
 
 ########## BASH HISTORY ##########
 # bash_history: append instead of rewriting it
@@ -81,10 +76,6 @@ alias myip="curl -s http://ipinfo.io/ip"
 # disk usage
 alias ducks='du -cks ${1}* | sort -rn | head'
 #alias ducks="find . -printf '%s %p\n'| sort -nr | head -10"
-
-# alias to remove host key from known_hosts
-alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
-#alias removekey="if [ ! $1 ]; then echo "Enter a known_hosts line number to remove."; else sed -i "${1}d" ~/.ssh/known_hosts; fi"
 
 alias path='echo -e ${PATH//:/\\n}' # show $PATH on new lines for readablity
 alias webify="mogrify -resize 690\> *.png"
@@ -128,6 +119,11 @@ if [[ $OSTYPE =~ "linux" ]]; then
     ########## EXPORTS ##########
     # required to glob file extensions in extract()
     shopt -s extglob
+    # just type directory to cd to it
+    shopt -s autocd
+    # autocorrect minor mispellings in cd
+    shopt -s dirspell
+    shopt -s cdspell
 
     # make less more friendly for non-text input files, see lesspipe(1)
     #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -176,6 +172,11 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ping='ping -c 10'        # make default count 10
     alias ports='netstat -nape --inet'
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
+
+    # alias to remove host key from known_hosts
+    alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
+    #alias removekey="if [ ! $1 ]; then echo "Enter a known_hosts line number to remove."; else sed -i "${1}d" ~/.ssh/known_hosts; fi"
+
 
     ########## FUNCTIONS ##########
     extract() {
@@ -268,7 +269,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     # default macOS Sierra prompt: 'hostname:~ username$ '
     # PS1='\h:\W \u\$ '
     # my custom prompt, blue username for macos
-    PS1="(\$?) \n[\[$(tput sgr0)\]\[\033[38;5;32m\]\u\[$(tput sgr0)\]\[\033[38;5;10m\]@\h\[$(tput sgr0)\]\[\033[38;5;15m\]:\[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]] \\$\[$(tput sgr0)\] "
+    PS1="(\$?) [\[$(tput sgr0)\]\[\033[38;5;32m\]\u\[$(tput sgr0)\]\[\033[38;5;10m\]@\h\[$(tput sgr0)\]\[\033[38;5;15m\]:\[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]] \\$\[$(tput sgr0)\] "
 
     ########## MAC SPECIFIC ALIASES ##########
     # show ls with colors
@@ -276,9 +277,9 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     # view driectory tree with out brew installing tree
     alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
     # format man page as a pdf and open it
-    alias man2pdf='if [ $# -ne 1 ]; then echo "ERROR: You must supply a man page to convert!" else; $(man -t $1 | open -f -a Preview.app); fi'
+#    alias man2pdf='if [ $# -ne 1 ]; then echo "ERROR: You must supply a man page to convert!" else; $(man -t $1 | open -f -a Preview.app); fi'
     # open pdf/png/jpg/tiff/gif/bmp with Preview from Terminal
-    alias preview='if [ $# -ne 1 ]; then echo "ERROR: You must supply a file to open in Preview.app!"; else $(open -a Preview.app $1); fi'
+#    alias preview='if [ $# -ne 1 ]; then echo "ERROR: You must supply a file to open in Preview.app!"; else $(open -a Preview.app $1); fi'
     # get wifi connection history
     alias wifihistory="defaults read /Library/Preferences/SystemConfiguration/com.apple.airport.preferences | grep LastConnected -A7"
     # get the weather

@@ -2,12 +2,6 @@
 
 # install.sh - symlink dotfiles to git repo for easy updating of dotfiles
 
-if [ $# -ne 1 ]; then
-    echo "ERROR: Please include your GitHub API Key for ~/.gitconfig!"
-#    exit 1
-fi
-
-github_api=$1
 iam=$(whoami)
 backupdir="~/.original_dotfile_backups"
 
@@ -18,7 +12,13 @@ echo "installing dot files..."
 
 # make a backup directory
 mkdir -p $backupdir
-echo "created backup directory at $backupdir for original files"
+
+if [ -d $backupdir ]; then
+    echo "created backup directory at $backupdir for original files"
+else
+    echo "ERROR: Unable to create directory, $backupdir!"
+    exit 1
+fi
 
 # rename all of the gitignore files
 for f in $(find . -name gitignore)
@@ -37,14 +37,15 @@ do
     ln -sf $(pwd)/${i} ~/.${i}
 
     # chown file to $iam just in case
-    chown -R $iam:$iam $i
+    if [[ $OSTYPE =~ "darwin" ]]; then
+        chown -R ${iam}:staff $i
+    else
+        chown -R ${iam}:${iam} $i     
+    fi
 
-    # chmod file to 0644, can change in future
-    chmod -R 0644 $i
+    # chmod file to 0755, can change in future
+    chmod -R 0755 $i
 done
-
-# add github api key to ~/.gitconfig 
-sed -i "s/GITHUB_API/$github_api/g" ~/.gitconfig
 
 echo "done! successfully installed dot files"
 
