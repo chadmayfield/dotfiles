@@ -11,9 +11,9 @@
     # https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
     #signingkey = DEADBEEF
 
-[github]
-    user = chadmayfield
-    token = GITHUB_API
+# include github username/token
+[include]
+    path = ~/.github
 
 [core]
     pager = less -FRSX
