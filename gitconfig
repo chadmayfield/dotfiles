@@ -27,12 +27,12 @@
 #   as of commit 17a4be2, git supports 24-bit RGB color values. here are
 #   most (if not all) of the *basic* values and attributes accepted;
 #
-# colors            attributes
-# ------            ----------
-# normal blue       bold    italic (2.9.1+)
-# black  magenta    dim     strike (2.9.1+)
-# red    cyan       ul
-# green  white      blink
+# colors            attributes                  background/foreground
+# ------            ----------                  ---------------------
+# normal blue       bold    italic (2.9.1+)     you can also specify a fg/bg
+# black  magenta    dim     strike (2.9.1+)     by using the format; fg bg
+# red    cyan       ul                          so 'blue white' would be a
+# green  white      blink                       white background & blue txt
 # yellow            reverse
 #######################################
 
@@ -57,8 +57,8 @@
 
 [color "status"]
     header = normal
-    added = yellow
-    changed = green
+    added = green
+    changed = yellow bold
 #    changed = green bold
     untracked = red bold
 #    untracked = cyan
