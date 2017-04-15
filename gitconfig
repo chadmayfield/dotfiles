@@ -20,8 +20,21 @@
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 
 #[apply]
-    #whitespace = fix    # warn & fix whitespace errors (like trailing wspace)
+    #whitespace = fix    # warn & fix whitespace errors (%trailing wspace)
     #whitespace = nowarn # warn only
+
+# GIT_COLORS ##########################
+#   as of commit 17a4be2, git supports 24-bit RGB color values. here are
+#   most (if not all) of the *basic* values and attributes accepted;
+#
+# colors            attributes
+# ------            ----------
+# normal blue       bold    italic (2.9.1+)
+# black  magenta    dim     strike (2.9.1+)
+# red    cyan       ul
+# green  white      blink
+# yellow            reverse
+#######################################
 
 [color]
     diff = auto
@@ -43,9 +56,14 @@
     new = green bold
 
 [color "status"]
+    header = normal
     added = yellow
     changed = green
-    untracked = cyan
+#    changed = green bold
+    untracked = red bold
+#    untracked = cyan
+    deleted = cyan dim
+    nobranch = red dim
 
 [diff]
     renamelimit = 0
