@@ -1,5 +1,15 @@
-._*
+# linux
 *~
+
+# macos
+._*
+Icon?
 .Trash*
 .DS_Store
-.Spotlight*
+.DS_Store?
+*/.DS_Store
+.Spotlight-V100
+
+# windows
+Thumbs.db
+ehthumbs.db
