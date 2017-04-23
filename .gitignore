@@ -1,7 +1,11 @@
-# linux
+# vim temp history
+# http://stackoverflow.com/a/9850662
+.netrwhist
+
+# linux temp files
 *~
 
-# macos
+# macos temp files
 ._*
 Icon?
 .Trash*
@@ -10,6 +14,6 @@ Icon?
 */.DS_Store
 .Spotlight-V100
 
-# windows
+# windows temp files
 Thumbs.db
 ehthumbs.db

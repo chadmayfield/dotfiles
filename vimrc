@@ -12,7 +12,9 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch               " hughlighting in last used search pattern
 endif
 
-colorscheme codeschool         " set colorcheme
+colorscheme hybrid             " set colorcheme
+set background=dark            " use dark background
+"set background=light          " use light background
 syntax on                      " turn on syntax highlighting
 
 "set smartindent               " enable smart indent
@@ -62,7 +64,9 @@ set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 "set statusline+=%10((%l/%L)%)      " line and column
 "set statusline+=%P                 " percentage of file
 
-
+" .netrwhist: http://www.drchip.org/astronaut/vim/index.html#NETRW
+" and to disable it: http://stackoverflow.com/a/9850662
+"set netrw_dirhistmax=0
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
     set encoding=utf-8

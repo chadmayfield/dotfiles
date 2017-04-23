@@ -5,16 +5,24 @@
 #
 # --- bash initialization cheatsheet --------------
 # examples in /usr/share/doc/bash/examples/startup-files
-# LOGIN                               NON-LOGIN
-# /etc/profile                        /etc/bash/bashrc
-# 	/etc/profile.env (if exists)      ~/.bashrc
-# 	/etc/bash/bashrc (if exists)
-# 	/etc/profile.d/*.sh (if exists)
+# LOGIN                                NON-LOGIN
+# /etc/profile                           /etc/bash/bashrc
+# 	  /etc/profile.env (if exists)       ~/.bashrc
+# 	  /etc/bash/bashrc (if exists)
+# 	  /etc/profile.d/*.sh (if exists)
 # ~/.bash_profile
-# 	/etc/bashrc
-# 	~/.bashrc (if exists)
+# 	  /etc/bashrc
+# 	  ~/.bashrc (if exists)
 # if( ~/.bash_profile doesn't exist)
-# 	~/.bash_login
+# 	  ~/.bash_login
+#
+# --- bash files (from man bash) ------------------
+#/etc/profile:    systemwide initialization file, executed for login shells
+#~/.bash_profile: personal initialization file, executed for login shells
+#~/.bashrc:       individual per-interactive-shell startup file
+#~/.bash_logout:  indv login shell cleanup file, exec when login shell exits
+#~/.inputrc:      individual readline initialization file
+# -------------------------------------------------
 
 # only do something if running interactively
 [ -z "$PS1" ] && return
@@ -69,6 +77,11 @@ alias vi='vim'
 alias rm='rm -i'                    # interactive to avoid accidental rm
 alias mkdir="mkdir -pv"
 alias grep='grep --color=auto'
+alias curl='curl -C -'              # continue xfer & auto find were to start
+
+# count lines of code in git repo
+# kind of like: https://github.com/AlDanial/cloc
+alias count_loc='git ls-files | grep -vE '$1' | xargs wc -l'
 
 # get current ip
 alias myip="curl -s http://ipinfo.io/ip"
