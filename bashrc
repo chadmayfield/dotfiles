@@ -119,6 +119,7 @@ alias sl='ls'
 alias ks='ls'
 alias xs='cd'
 alias vf='cd'
+alias gti='git'
 alias moew='more'
 alias moer='more'
 
@@ -299,6 +300,22 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     alias weathershort="finger o:84096@graph.no"
     alias weather="finger 84096@graph.no"
     #alias weather="finger saltlakecity@graph.no"
+
+    # cpdf (http://www.coherentpdf.com/cpdfmanual.pdf)
+    alias pdf_chgid="cpdf -change-id $1 -o ${1}_chgid.pdf"
+    alias pdf_linear="cpdf -l $1 -o ${1}_linearized.pdf"
+    alias pdf_merge="cpdf -merge $1 1 $2 2-end -out merged.pdf"
+    alias pdf_split="cpdf -split $1 -o ${1}_%%%.pdf"
+    alias pdf_encrypt="cpdf -encrypt AES \"chad\" $2 -no-edit -no-copy $1 -o ${1}_ecnrypted.pdf"
+    alias pdf_decrypt="cpdf -decrypt $1 owner=chad -o ${1}_decrypted.pdf"
+    alias pdf_compress="cpdf -compress $1 ${1}_compressed.pdf"
+    alias pdf_decompress="cpdf -decompress $1 -o ${1}_decompressed.pdf"
+    alias pdf_squeeze="cpdf -squeeze $1 -o ${1}_squeezed.pdf"
+    alias pdf_ls_bkmrks="cpdf -list-bookmarks -raw $1"
+    alias pdf_rm_bkmrks="cpdf -remove-bookmarks $1 -o ${1}_rem_bookmarks.pdf"
+    alias pdf_watermark_on="cpdf -stamp-on logo.pdf $1 -o ${1}_wtrmkd.pdf"
+    alias pdf_watermark_under="cpdf -stamp-under logo.pdf $1 -o ${1}_wtrmkd.pdf"
+    alias pdf_stamp_date="cpdf -add-text \"Copyright 2017\" $1 -o ${1}_stmp.pdf"
 
     ########## FUNCTIONS ##########
 
