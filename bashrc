@@ -79,9 +79,11 @@ alias mkdir="mkdir -pv"
 alias grep='grep --color=auto'
 alias curl='curl -C -'              # continue xfer & auto find were to start
 
-# count lines of code in git repo
-# kind of like: https://github.com/AlDanial/cloc
+# git-ish/dev aliases
+alias add='ssh-add ~/.ssh/id_rsa'
+# count lines of code in git repo (like: https://github.com/AlDanial/cloc)
 alias count_loc='git ls-files | grep -vE '$1' | xargs wc -l'
+alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
 
 # get current ip
 alias myip="curl -s http://ipinfo.io/ip"
