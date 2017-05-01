@@ -60,6 +60,8 @@ HISTIGNORE='exit:ls:bg:fg:history'
 HISTCONTROL=ignoreboth
 # bash_history: record timestamps
 HISTTIMEFORMAT='%F %T '
+# bash_history: hack! remove line number in history (via @iMilnb)
+HISTTIMEFORMAT="$(echo -e '\r\e[K')"
 # bash_history: store immediately
 PROMPT_COMMAND='history -a'
 # trim long paths @ prompt (req Bash 4.x)
@@ -303,6 +305,9 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     alias weather="finger 84096@graph.no"
     #alias weather="finger saltlakecity@graph.no"
 
+    # john the ripper
+    alias john="~/John/run/john"
+    alias john_pro="~/John_Pro/run/john"
     # cpdf (http://www.coherentpdf.com/cpdfmanual.pdf)
     alias pdf_chgid="cpdf -change-id $1 -o ${1}_chgid.pdf"
     alias pdf_linear="cpdf -l $1 -o ${1}_linearized.pdf"

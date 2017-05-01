@@ -52,6 +52,11 @@ set title                      " show filename in title bar
 
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
+" provide visual feedback for paste toggle see http://bit.ly/2ppWaTl
+nnoremap <F2> :set invpaste paste?<CR>  
+set pastetoggle=<F2>           " toggle ':set paste/:set nopaste' on/off
+set showmode
+
 " statusline ex 1 from; http://www.plainlystated.com/2009/05/vim-statusline/
 " [10] app/models/user.rb          [ruby][Rails-model-arb]    (1/276) Top
 "------------------------------
