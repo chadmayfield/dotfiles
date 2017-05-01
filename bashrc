@@ -61,7 +61,7 @@ HISTCONTROL=ignoreboth
 # bash_history: record timestamps
 HISTTIMEFORMAT='%F %T '
 # bash_history: hack! remove line number in history (via @iMilnb)
-HISTTIMEFORMAT="$(echo -e '\r\e[K')"
+#HISTTIMEFORMAT="$(echo -e '\r\e[K')"
 # bash_history: store immediately
 PROMPT_COMMAND='history -a'
 # trim long paths @ prompt (req Bash 4.x)
