@@ -3,13 +3,10 @@
 
 Yes, this is the obligatory startup/configuration files repo...
 
-<center>My Prompt</center>
+My Prompt
+&nbsp; &nbsp;![My prompt](http://i.imgur.com/gvGk25zl.png)
 
-&nbsp; &nbsp;![My prompt](http://i.imgur.com/gvGk25z.png)
-
-<center>My .vimrc</center>
-
-![Screenshot of my .vimrc](http://i.imgur.com/yxtMt8Q.png)
+![Screenshot of my .vimrc](http://i.imgur.com/yxtMt8Ql.png)
 
 ## Install
 **DISCLAIMER**: I use these configuration files everyday and they work, for you however, they may not.  It's up to you to review the code and ultimately trust it.
