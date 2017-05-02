@@ -1,0 +1,16 @@
+# ~/.screenrc, default user startup file 
+
+# author  : Chad Mayfield (chad@chd.my)
+# license : gplv3
+
+# enable 256 colors in term
+term xterm-256color
+
+# disable startup message
+startup_message off
+
+# set scrollback buffer
+defscrollback 50000
+
+# change command character from ctrl-a to ctrl-b (like tmux)
+escape ^Bb
