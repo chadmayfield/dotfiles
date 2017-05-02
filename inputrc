@@ -1,0 +1,10 @@
+# ~/.inputrc, user readline startup file (see man bash) 
+
+# author  : Chad Mayfield (chad@chd.my)
+# license : gplv3
+
+# autocomplete regardless of case
+set completion-ignore-case on
+
+# ask to show if more than 150 completions
+set completion-query-items 150
