@@ -3,7 +3,7 @@
 
 Yes, this is the obligatory startup/configuration files repo...
 
-&nbsp; &nbsp;![My prompt](http://i.imgur.com/gvGk25zl.png)
+![My prompt](http://i.imgur.com/gvGk25zl.png)
 
 ![Screenshot of my .vimrc](http://i.imgur.com/yxtMt8Ql.png)
 
