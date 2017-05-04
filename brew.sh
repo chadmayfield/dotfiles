@@ -19,8 +19,11 @@ fi
 # add some extras to macos
 pkg=( icdiff 
       mercurial
-      dos2unix
+      dos2unix 
+      coreutils 
+      jhead 
       xhyve
+      wget 
       speedtest
       git-cal
       "tap showwin/speedtest"
