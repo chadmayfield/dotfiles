@@ -24,6 +24,11 @@
 #~/.inputrc:      individual readline initialization file
 # -------------------------------------------------
 
+# TODO
+#  + add bash completion
+#  + add additional aliases
+#  + extend LESS_TERMCAP to color manpages 
+
 # only do something if running interactively
 [ -z "$PS1" ] && return
 
@@ -33,11 +38,21 @@ if [ -f /etc/global_bashrc ]; then . /etc/global_bashrc; fi
 
 ########## EXPORTS ##########
 export PAGER=less
+export EDITOR='vim'
+export MANPAGER='less -X'
+
+# great explanation on LESS_TERMCAP: https://unix.stackexchange.com/a/108840
+export LESS_TERMCAP_md="$(tput bold; tput setaf 3)"
+
 # directory bookmarks, used with cdable_vars, use $HOME, not ~
-#export dotfiles="~/.dotfiles"
+#export dotfiles="~/.dot_files"
 #export repos="~/Code/myrepos"
-#export documents="~/Documents"
+#export docs="~/Documents"
 #export dropbox="~/Dropbox"
+
+# use en-US and UTF-8
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
 
 # prevent overwriting of files via stdout redirection (>) to force use '>|'
 set -o noclobber
@@ -89,6 +104,7 @@ alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
 
 # get current ip
 alias myip="curl -s http://ipinfo.io/ip"
+#alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # disk usage
 alias ducks='du -cks ${1}* | sort -rn | head'
