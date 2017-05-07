@@ -1,5 +1,5 @@
-"
 " ~/.vimrc: personal vim initializations 
+
 " author  : Chad Mayfield (chad@chd.my)
 " license : gplv3
 
@@ -16,6 +16,8 @@ endif
 "    set t_ut=
 "endif
 
+"let g:hybrid_custom_term_colors = 1
+"let g:hybrid_reduced_contrast = 1 
 colorscheme hybrid             " set colorcheme
 set background=dark            " use dark background
 "set background=light          " use light background
@@ -54,7 +56,7 @@ set ls=2                       " always show status line
 set title                      " show filename in title bar
 "set list                      " show tabs, to get them out of files
 
-"noremap ; :                    " set ; as and alias
+noremap ; :                    " set ; as and alias
 
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
@@ -62,6 +64,8 @@ set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 nnoremap <F2> :set invpaste paste?<CR>  
 set pastetoggle=<F2>                " toggle :set paste/:set nopaste on/off
 set showmode
+
+cmap w!! w !sudo tee % >/dev/null   " forgot sudo? np, use w!! to invoke in file
 
 " if needed disable .netrwhist file: http://stackoverflow.com/a/9850662
 "set netrw_dirhistmax=0
