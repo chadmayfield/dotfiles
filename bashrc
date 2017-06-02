@@ -324,6 +324,8 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     # john the ripper
     alias john="~/John/run/john"
     alias john_pro="~/John_Pro/run/john"
+    # hashcat
+    alias hashcat="~/Hashcat/hashcat"
     # cpdf (http://www.coherentpdf.com/cpdfmanual.pdf)
     alias pdf_chgid="cpdf -change-id $1 -o ${1}_chgid.pdf"
     alias pdf_linear="cpdf -l $1 -o ${1}_linearized.pdf"
