@@ -29,7 +29,8 @@ pkg=( icdiff
       "tap showwin/speedtest"
       xz
       p7zip
-      "imagemagick --with-webp" )
+      "imagemagick --with-webp" 
+      certbot )
 
 # add security tools
 pkg+=( aircrack-ng hydra john nmap )
