@@ -7,6 +7,7 @@
 
 iam=$(whoami)
 backupdir="~/.original_dotfile_backups"
+secretsdir="~/.secrets"
 
 # declare array with filenames (on seperate lines for readability)
 dotfiles=( vim 
@@ -19,22 +20,22 @@ dotfiles=( vim
            curlrc 
            wgetrc 
            screenrc 
-           tmux.conf )
+           tmux.conf
+           hushlogin )
+
+secretfiles=( github
+              API_KEY_DO
+              API_KEY_VULTR
+              API_KEY_CLOUDSTACK )
 
 install() {
     read -p "WARNING: You are about to overwrite existing files in your home directory. Are you sure? (y/n)" -n 1
 
     echo "installing dot files..."
 
-    # make a backup directory
+    # make a backup/secrets directory
     mkdir -p $backupdir
-
-    if [ -d $backupdir ]; then
-        echo "created backup directory at $backupdir for original files"
-    else
-        echo "ERROR: Unable to create, $backupdir! Does it already exist?"
-        exit 1
-    fi
+    mkdir -p $secretsdir
 
     # loop through array and create symlinks to non-dot named file
     for i in ${dotfiles[@]}
@@ -54,6 +55,13 @@ install() {
 
         # chmod file to 0644, can change in future
         #chmod -R 0644 $i
+    done
+
+    # TODO: populate file with user provided keys
+    for i in ${secretfiles[@]}
+    do
+        # create the file, we can add to it later
+        touch ${secretsdir}/${i} 
     done
 
     echo "done! successfully installed dot files"
@@ -88,6 +96,9 @@ uninstall() {
     	# chmod file to 0644, can change in future
     	#chmod -R 0644 $i
 	done
+
+#    echo "removing secrets directory..."
+#    rm -rf $secrets
 
 	echo "done! successfully uninstalled dot files"
 }

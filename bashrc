@@ -54,6 +54,21 @@ export LESS_TERMCAP_md="$(tput bold; tput setaf 3)"
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 
+# export provider api key: digital ocean
+if [ -f ~/.secrets/API_KEY_DO ]; then
+    export DO_KEY=$(cat ~/.secrets/API_KEY_DO)
+fi
+
+# export provider api key: vultr
+if [ -f ~/.secrets/API_KEY_VULTR ]; then
+    export VULTR_KEY=$(cat ~/.secrets/API_KEY_VULTR)
+fi
+
+# export provider api key: apache cloudstack
+if [ -f ~/.secrets/API_KEY_CLOUDSTACK ]; then
+    export CLOUDSTACK_KEY=$(cat ~/.secrets/API_KEY_CLOUDSTACK)
+fi
+
 # prevent overwriting of files via stdout redirection (>) to force use '>|'
 set -o noclobber
 # set vi editing mode in bash
@@ -118,6 +133,11 @@ alias serve='python -m SimpleHTTPServer'
 # rerun last command but use sudo this time!
 alias crap='sudo $(history -p \!\!)'
 #alias crap='sudo $(fc -ln -1)'
+
+# vagrant aliases
+alias vagrant_vm='vagrant --provider=vsphere'
+alias vagrant_vultr='vagrant --provider=vUltr'
+alias vagrant_do='vagrant --provider=digitalocean'
 
 # a ton of ls aliases
 #alias la='ls -A'
