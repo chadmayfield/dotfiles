@@ -54,18 +54,23 @@ export LESS_TERMCAP_md="$(tput bold; tput setaf 3)"
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 
+# export provider api: virustotal
+if [ -s ~/.secrets/VIRUSTOTAL ]; then
+    export VT_KEY=$(cat ~/.secrets/VIRUSTOTAL)
+fi
+
 # export provider api key: digital ocean
-if [ -f ~/.secrets/API_KEY_DO ]; then
+if [ -s ~/.secrets/API_KEY_DO ]; then
     export DO_KEY=$(cat ~/.secrets/API_KEY_DO)
 fi
 
 # export provider api key: vultr
-if [ -f ~/.secrets/API_KEY_VULTR ]; then
+if [ -s ~/.secrets/API_KEY_VULTR ]; then
     export VULTR_KEY=$(cat ~/.secrets/API_KEY_VULTR)
 fi
 
 # export provider api key: apache cloudstack
-if [ -f ~/.secrets/API_KEY_CLOUDSTACK ]; then
+if [ -s ~/.secrets/API_KEY_CLOUDSTACK ]; then
     export CLOUDSTACK_KEY=$(cat ~/.secrets/API_KEY_CLOUDSTACK)
 fi
 
