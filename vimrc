@@ -7,6 +7,12 @@ if $TERM == "xterm-256color"
     set t_Co=256               " enable 256 colors
 endif
 
+" use 256 colors in terminal (and tmux)
+if !has("gui_running")
+    set t_Co=256
+    set term=screen-256color
+endif
+
 if &t_Co > 2 || has("gui_running")
     syntax on                  " if term has color,turn on syntax hightlight
     set hlsearch               " hughlighting in last used search pattern

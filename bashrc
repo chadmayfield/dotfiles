@@ -226,6 +226,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
     #alias ls='ls -hF --color'     # ls: add colors for filetype recognition
     alias df="df -Tha --total"     # show all
     alias free="free -mt"          # always show MB and Total
+    alias tmux="tmux -2"           # force tmux to use 256 colors
     alias wget="wget -c"           # always continue
     alias j='jobs -l'
     alias ping='ping -c 10'        # make default count 10
