@@ -224,7 +224,8 @@ if [[ $OSTYPE =~ "linux" ]]; then
     fi
 
     #alias ls='ls -hF --color'     # ls: add colors for filetype recognition
-    alias df="df -Tha --total"     # show all
+    #alias df="df -Tha --total"     # show all
+    alias df="df -Tha --total | grep -E --color=never 'Type|ext*|cifs|nfs' | grep -v aufs"
     alias free="free -mt"          # always show MB and Total
     alias tmux="tmux -2"           # force tmux to use 256 colors
     alias wget="wget -c"           # always continue
@@ -234,7 +235,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
 
     # alias to remove host key from known_hosts
-    alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
+    #alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
     #alias removekey="if [ ! $1 ]; then echo "Enter a known_hosts line number to remove."; else sed -i "${1}d" ~/.ssh/known_hosts; fi"
 
 
