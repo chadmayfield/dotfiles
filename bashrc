@@ -350,6 +350,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     alias weather="finger 84096@graph.no"
     #alias weather="finger saltlakecity@graph.no"
 
+    alias icloud="~/Library/Mobile\ Documents/com~apple~CloudDocs/"
     # john the ripper
     alias john="~/John/run/john"
     alias john_pro="~/John_Pro/run/john"
@@ -358,7 +359,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     # cpdf (http://www.coherentpdf.com/cpdfmanual.pdf)
     alias pdf_chgid="cpdf -change-id $1 -o ${1}_chgid.pdf"
     alias pdf_linear="cpdf -l $1 -o ${1}_linearized.pdf"
-    alias pdf_merge="cpdf -merge $1 1 $2 2-end -out merged.pdf"
+    alias pdf_merge="cpdf -merge $1 1 $2 2-end -o merged.pdf"
     alias pdf_split="cpdf -split $1 -o ${1}_%%%.pdf"
     alias pdf_encrypt="cpdf -encrypt AES \"chad\" $2 -no-edit -no-copy $1 -o ${1}_ecnrypted.pdf"
     alias pdf_decrypt="cpdf -decrypt $1 owner=chad -o ${1}_decrypted.pdf"
