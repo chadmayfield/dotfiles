@@ -26,10 +26,12 @@ pkg=( icdiff
       wget 
       speedtest
       git-cal
-      "tap showwin/speedtest"
+      "tap showwin/speedtest" 
+      "maliceio/tap/malice"
       xz
       p7zip
-      "imagemagick --with-webp" 
+      "imagemagick --with-webp"
+      packer 
       certbot )
 
 # add security tools
