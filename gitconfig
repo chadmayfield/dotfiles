@@ -4,8 +4,8 @@
 # license : gplv3
 
 [user]
-    name = Chad Mayfield
-    email = chad@chd.my
+	name = Chad Mayfield
+	email = chad@chd.my
     editor = vim
 
     # https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
@@ -22,6 +22,9 @@
 #[apply]
     #whitespace = fix    # warn & fix whitespace errors (%trailing wspace)
     #whitespace = nowarn # warn only
+
+#[http]
+#    sslVerify = false
 
 # GIT_COLORS ##########################
 #   as of commit 17a4be2, git supports 24-bit RGB color values. here are
@@ -85,5 +88,11 @@
     #tags = tag -n1 -l
     #pop = !git stash apply && git stash clear
     #staged = diff --cached
+
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
 
 #EOF
