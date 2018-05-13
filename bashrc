@@ -119,7 +119,11 @@ alias curl='curl -C -'              # continue xfer & auto find were to start
 # git-ish/dev aliases
 alias add='ssh-add ~/.ssh/id_rsa'
 alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
+#alias sshfingerprint='ssh-keygen -l -E sha1 -f $1'
+#alias sshfingerprint='ssh-keygen -l -E sha256 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E md5 -f ~/.ssh/id_rsa'
+alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
+alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq'
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
 alias count_loc='git ls-files | grep -vE '$1' | xargs wc -l'
 alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
