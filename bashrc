@@ -123,7 +123,7 @@ alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E sha256 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E md5 -f ~/.ssh/id_rsa'
 alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
-alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq'
+alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq | sort -r'
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
 alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
 
