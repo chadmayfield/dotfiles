@@ -125,7 +125,6 @@ alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
 alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
 alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq'
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
-alias count_loc='git ls-files | grep -vE '$1' | xargs wc -l'
 alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
 
 # get current ip
@@ -239,6 +238,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ping='ping -c 10'        # make default count 10
     alias ports='netstat -nape --inet'
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
+    alias count_loc='git ls-files | grep -vE '$1' | xargs wc -l'
 
     # alias to remove host key from known_hosts
     #alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
