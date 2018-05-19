@@ -25,6 +25,7 @@
 # -------------------------------------------------
 
 # TODO
+#  + add tests to aliases: test ! -z ${1+x} && echo stuff || echo “\$1 missing!”
 #  + add bash completion
 #  + add additional aliases
 #  + extend LESS_TERMCAP to color manpages 
@@ -122,7 +123,8 @@ alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E sha1 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E sha256 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E md5 -f ~/.ssh/id_rsa'
-alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
+#alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
+alias genkey='test ! -z ${1+x} && ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))" || echo "\$1 missing, enter hostname!"'
 alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq | sort -r'
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
 alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
