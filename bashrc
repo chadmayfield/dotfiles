@@ -300,12 +300,12 @@ if [[ $OSTYPE =~ "linux" ]]; then
     # if we don't have a socket, start ssh-agent
     if [ ! -S "$SSH_AUTH_SOCK" ]; then
         eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
-        echo $SSH_AGENT_PID > $HOME/.ssh/.agent.$HOSTNAME.sock.pid
+        echo $SSH_AGENT_PID > $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid
     fi
 
     ## recreate pid
     #if [ -z $SSH_AGENT_PID ]; then
-    #    export SSH_AGENT_PID=$(cat $HOME/.ssh/.agent.$HOSTNAME.sock.pid)
+    #    export SSH_AGENT_PID=$(cat $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid)
     #fi
 
     # when on linux rid ourselves of pesky macOS/Windows temp files
