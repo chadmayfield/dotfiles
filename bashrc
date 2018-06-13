@@ -115,7 +115,7 @@ alias vi='vim'
 alias rm='rm -i'                    # interactive to avoid accidental rm
 alias mkdir="mkdir -pv"
 alias grep='grep --color=auto'
-alias curl='curl -C -'              # continue xfer & auto find were to start
+#alias curl='curl -C -'              # continue xfer & auto find were to start
 
 # git-ish/dev aliases
 alias add='ssh-add ~/.ssh/id_rsa'
@@ -280,28 +280,33 @@ if [[ $OSTYPE =~ "linux" ]]; then
         fi
     }
 
-    # start ssh-agent at login (https://stackoverflow.com/a/18915067)
-    SSH_ENV="$HOME/.ssh/environment"
+    # inspired by (https://stackoverflow.com/a/18915067)
+    # find all ssh-agent sockets
+    #$find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null()
 
-    start_agent {
-        echo "Initialising new SSH agent..."
-        /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-        echo succeeded
-        chmod 600 "${SSH_ENV}"
-        . "${SSH_ENV}" > /dev/null
-        /usr/bin/ssh-add;
-    }
+    # set var if not set
+    oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
 
-    # Source SSH settings, if applicable
-    if [ -f "${SSH_ENV}" ]; then
-        . "${SSH_ENV}" > /dev/null
-        #ps ${SSH_AGENT_PID} doesn't work under cywgin
-        ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-            start_agent;
-        }
+    # is $SSH_AUTH_SOCK set
+    if [ -z "$SSH_AUTH_SOCK" ]; then
+        export SSH_AUTH_SOCK=$oursock
     else
-        start_agent;
+        # it is, but check to make sure it's not keyring
+        if ! [ "$SSH_AUTH_SOCK" = $oursock ]; then
+            export SSH_AUTH_SOCK=$oursock
+        fi
     fi
+
+    # if we don't have a socket, start ssh-agent
+    if [ ! -S "$SSH_AUTH_SOCK" ]; then
+        eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
+        echo $SSH_AGENT_PID > $HOME/.ssh/.agent.$HOSTNAME.sock.pid
+    fi
+
+    ## recreate pid
+    #if [ -z $SSH_AGENT_PID ]; then
+    #    export SSH_AGENT_PID=$(cat $HOME/.ssh/.agent.$HOSTNAME.sock.pid)
+    #fi
 
     # when on linux rid ourselves of pesky macOS/Windows temp files
     dotpatterns=('._*' '.DS_Store' '.TemporaryItems' '.Trashes' '.Spotlight-V100' 'Thumbs.db' '*~')
