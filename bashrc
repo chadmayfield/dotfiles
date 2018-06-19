@@ -25,7 +25,9 @@
 # -------------------------------------------------
 
 # TODO
-#  + add tests to aliases: test ! -z ${1+x} && echo stuff || echo “\$1 missing!”
+#  + fix all garbage aliases that have $1
+#  + functionize the larger aliases, see bash docs; https://bit.ly/2MzvIBA
+#      "For almost every purpose, shell functions are preferred over aliases."
 #  + add bash completion
 #  + add additional aliases
 #  + extend LESS_TERMCAP to color manpages 
