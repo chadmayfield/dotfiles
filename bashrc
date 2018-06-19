@@ -115,10 +115,9 @@ alias vi='vim'
 alias rm='rm -i'                    # interactive to avoid accidental rm
 alias mkdir="mkdir -pv"
 alias grep='grep --color=auto'
-#alias curl='curl -C -'              # continue xfer & auto find were to start
+alias ccurl='curl -C -'              # continue xfer & auto find were to start
 
 # git-ish/dev aliases
-alias add='ssh-add ~/.ssh/id_rsa'
 alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E sha1 -f $1'
 #alias sshfingerprint='ssh-keygen -l -E sha256 -f $1'
@@ -126,12 +125,13 @@ alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
 #alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
 alias genkey='test ! -z ${1+x} && ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))" || echo "\$1 missing, enter hostname!"'
 alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq | sort -r'
+#alias listagents=$(find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null)
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
-alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh"
+alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh && cd -"
 
 # get current ip
-alias myip="curl -s http://ipinfo.io/ip"
-#alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+#alias myip="curl -s http://ipinfo.io/ip"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # disk usage
 alias ducks='du -cks ${1}* | sort -rn | head'
@@ -180,6 +180,32 @@ alias moer='more'
 histgrep() {
     grep -P $@ ~/.bash_history
 }
+
+# inspired by (https://stackoverflow.com/a/18915067)
+
+# set var if not set
+oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
+
+# is $SSH_AUTH_SOCK set
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK=$oursock
+else
+    # it is, but check to make sure it's not keyring
+    if ! [ "$SSH_AUTH_SOCK" = $oursock ]; then
+        export SSH_AUTH_SOCK=$oursock
+    fi
+fi
+
+# if we don't have a socket, start ssh-agent
+if [ ! -S "$SSH_AUTH_SOCK" ]; then
+    eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
+    echo $SSH_AGENT_PID > $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid
+fi
+
+## recreate pid
+#if [ -z $SSH_AGENT_PID ]; then
+#    export SSH_AGENT_PID=$(cat $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid)
+#fi
 
 if [[ $OSTYPE =~ "linux" ]]; then
     ########## EXPORTS ##########
@@ -279,34 +305,6 @@ if [[ $OSTYPE =~ "linux" ]]; then
             fi
         fi
     }
-
-    # inspired by (https://stackoverflow.com/a/18915067)
-    # find all ssh-agent sockets
-    #$find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null()
-
-    # set var if not set
-    oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
-
-    # is $SSH_AUTH_SOCK set
-    if [ -z "$SSH_AUTH_SOCK" ]; then
-        export SSH_AUTH_SOCK=$oursock
-    else
-        # it is, but check to make sure it's not keyring
-        if ! [ "$SSH_AUTH_SOCK" = $oursock ]; then
-            export SSH_AUTH_SOCK=$oursock
-        fi
-    fi
-
-    # if we don't have a socket, start ssh-agent
-    if [ ! -S "$SSH_AUTH_SOCK" ]; then
-        eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
-        echo $SSH_AGENT_PID > $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid
-    fi
-
-    ## recreate pid
-    #if [ -z $SSH_AGENT_PID ]; then
-    #    export SSH_AGENT_PID=$(cat $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid)
-    #fi
 
     # when on linux rid ourselves of pesky macOS/Windows temp files
     dotpatterns=('._*' '.DS_Store' '.TemporaryItems' '.Trashes' '.Spotlight-V100' 'Thumbs.db' '*~')
