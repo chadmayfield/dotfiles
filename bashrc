@@ -25,9 +25,6 @@
 # -------------------------------------------------
 
 # TODO
-#  + fix all garbage aliases that have $1
-#  + functionize the larger aliases, see bash docs; https://bit.ly/2MzvIBA
-#      "For almost every purpose, shell functions are preferred over aliases."
 #  + add bash completion
 #  + add additional aliases
 #  + extend LESS_TERMCAP to color manpages 
@@ -77,6 +74,11 @@ if [ -s ~/.secrets/API_KEY_CLOUDSTACK ]; then
     export CLOUDSTACK_KEY=$(cat ~/.secrets/API_KEY_CLOUDSTACK)
 fi
 
+# export api key: ipinfo.io
+if [ -s ~/.secrets/API_KEY_IPINFO ]; then
+    export IPINFO_KEY=$(cat ~/.secrets/API_KEY_IPINFO)
+fi
+
 # prevent overwriting of files via stdout redirection (>) to force use '>|'
 set -o noclobber
 # set vi editing mode in bash
@@ -105,7 +107,7 @@ PROMPT_COMMAND='history -a'
 # trim long paths @ prompt (req Bash 4.x)
 #PROMPT_DIRTRIM=2
 
-########## ALIASES ##########
+########## SHARED ALIASES ##########
 # to clean up .bashrc, maybe put aliases in ~/.bash_aliases and source it.
 # see /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
@@ -120,24 +122,18 @@ alias grep='grep --color=auto'
 alias ccurl='curl -C -'              # continue xfer & auto find were to start
 
 # git-ish/dev aliases
-alias sshfingerprint='ssh-keygen -l -E md5 -f $1'
-#alias sshfingerprint='ssh-keygen -l -E sha1 -f $1'
-#alias sshfingerprint='ssh-keygen -l -E sha256 -f $1'
-#alias sshfingerprint='ssh-keygen -l -E md5 -f ~/.ssh/id_rsa'
-#alias genkey='ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"'
-alias genkey='test ! -z ${1+x} && ssh-keygen -o -a 128 -t ed25519 -C "$1 $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))" || echo "\$1 missing, enter hostname!"'
-alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq | sort -r'
 #alias listagents=$(find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null)
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
 alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh && cd -"
+alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq | sort -r'
 
 # get current ip
 #alias myip="curl -s http://ipinfo.io/ip"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # disk usage
-alias ducks='du -cks ${1}* | sort -rn | head'
-#alias ducks="find . -printf '%s %p\n'| sort -nr | head -10"
+#alias ducks='du -cks ${1}* | sort -rn | head'
+alias ducks="find . -printf '%s %p\n'| sort -nr | head -10"
 
 alias path='echo -e ${PATH//:/\\n}' # show $PATH on new lines for readablity
 alias webify="mogrify -resize 690\> *.png"
@@ -177,15 +173,50 @@ alias gti='git'
 alias moew='more'
 alias moer='more'
 
-########## FUNCTIONS ##########
+########## SHARED FUNCTIONS ##########
 # parses past history files defined for keyword
 histgrep() {
     grep -P $@ ~/.bash_history
 }
 
-# inspired by (https://stackoverflow.com/a/18915067)
+count_loc() {
+    if [ ! -d .git ]; then
+        echo "ERROR: It doesn't look like this is a git repo!"
+        return
+    fi
 
-# set var if not set
+    git ls-files | xargs wc -l
+}
+
+sshfingerprint() {
+    if [ "$#" -ne 1 ]; then
+        echo "ERROR: You supply a filename to fingerprint!"
+        return        
+    fi
+
+    local ourfile="$1"
+    local algos=(md5 sha1 sha256)
+
+    for i in ${algos[@]}; do 
+        echo "$i"
+        ssh-keygen -l -E $i -f $ourfile
+    done
+}
+
+genkey() {
+    if [ "$#" -ne 1 ]; then
+        echo "ERROR: You supply a hostname to add as a comment to your key!"
+        return        
+    fi
+
+    genkey_host=$1
+    genkey_msg="$genkey_host $(echo \($(hostname -s)@$(date +"%Y%m%d_%H%M")))"
+
+    echo "Generating key for $genkey_host..."
+    ssh-keygen -o -a 128 -t ed25519 -C "$genkey_host"
+}
+
+# shared ssh-agent, inspired by (https://stackoverflow.com/a/18915067)
 oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
 
 # is $SSH_AUTH_SOCK set
@@ -268,12 +299,10 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ping='ping -c 10'        # make default count 10
     alias ports='netstat -nape --inet'
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
-    alias count_loc='git ls-files | grep -vE '$1' | xargs wc -l'
 
     # alias to remove host key from known_hosts
     #alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
     #alias removekey="if [ ! $1 ]; then echo "Enter a known_hosts line number to remove."; else sed -i "${1}d" ~/.ssh/known_hosts; fi"
-
 
     ########## FUNCTIONS ##########
     extract() {
@@ -373,23 +402,27 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     alias ls='ls -G'
     # view driectory tree with out brew installing tree
     alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+
     # format man page as a pdf and open it
 #    alias man2pdf='if [ $# -ne 1 ]; then echo "ERROR: You must supply a man page to convert!" else; $(man -t $1 | open -f -a Preview.app); fi'
     # open pdf/png/jpg/tiff/gif/bmp with Preview from Terminal
 #    alias preview='if [ $# -ne 1 ]; then echo "ERROR: You must supply a file to open in Preview.app!"; else $(open -a Preview.app $1); fi'
+
     # get wifi connection history
     alias wifihistory="defaults read /Library/Preferences/SystemConfiguration/com.apple.airport.preferences | grep LastConnected -A7"
+
     # get the weather
     alias weathershort="finger o:84096@graph.no"
     alias weather="finger 84096@graph.no"
     #alias weather="finger saltlakecity@graph.no"
-
     alias icloud="~/Library/Mobile\ Documents/com~apple~CloudDocs/"
+
     # john the ripper
     alias john="~/John/run/john"
     alias john_pro="~/John_Pro/run/john"
     # hashcat
     alias hashcat="~/Hashcat/hashcat"
+
     # cpdf (http://www.coherentpdf.com/cpdfmanual.pdf)
     alias pdf_chgid="cpdf -change-id $1 -o ${1}_chgid.pdf"
     alias pdf_linear="cpdf -l $1 -o ${1}_linearized.pdf"
