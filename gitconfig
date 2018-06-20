@@ -9,7 +9,7 @@
     editor = vim
 
     # https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
-    #signingkey = DEADBEEF
+    signingkey = B86463C6
 
 # include github username/token
 [include]
@@ -19,8 +19,8 @@
     pager = less -FRSX
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 
-#[apply]
-    #whitespace = fix    # warn & fix whitespace errors (%trailing wspace)
+[apply]
+    whitespace = fix    # warn & fix whitespace errors (%trailing wspace)
     #whitespace = nowarn # warn only
 
 #[http]
@@ -62,9 +62,7 @@
     header = normal
     added = green
     changed = yellow bold
-#    changed = green bold
     untracked = red bold
-#    untracked = cyan
     deleted = cyan dim
     nobranch = red dim
 
@@ -89,10 +87,12 @@
     #pop = !git stash apply && git stash clear
     #staged = diff --cached
 
+[push]
+    default = simple
+
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 
-#EOF
