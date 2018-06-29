@@ -125,11 +125,20 @@ alias ccurl='curl -C -'              # continue xfer & auto find were to start
 #alias listagents=$(find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null)
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
 alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh && cd -"
-alias listkeys='for key in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${key}"; done | uniq | sort -r'
+alias listkeys='for k in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${k}"; done | uniq | sort -r'
 
 # get current ip
-#alias myip="curl -s http://ipinfo.io/ip"
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+#alias myip="curl -s https://ipinfo.io/ip"
+#alias myip="curl -s https://ifconfig.co"
+alias myip="curl -s https://api.ipify.org"
+#alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# docker specific aliases
+# prune docker images
+alias prune="docker rmi $(docker images -q -f dangling=true)"
+# prune images with non-ascii characters
+#alias prune="docker rmi $(docker images | grep "^<none>" | awk '{print $3}')"
+#alias prune="docker rmi $(docker images | awk '{print $3}' | awk '{if(NR>1)print}')"
 
 # disk usage
 #alias ducks='du -cks ${1}* | sort -rn | head'
