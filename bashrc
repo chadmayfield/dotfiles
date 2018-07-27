@@ -135,10 +135,18 @@ alias myip="curl -s https://api.ipify.org"
 
 # docker specific aliases
 # prune docker images
-alias prune="docker rmi $(docker images -q -f dangling=true)"
+alias prune="docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi"
 # prune images with non-ascii characters
+#alias prune="docker rmi $(docker images -q -f dangling=true)"
 #alias prune="docker rmi $(docker images | grep "^<none>" | awk '{print $3}')"
 #alias prune="docker rmi $(docker images | awk '{print $3}' | awk '{if(NR>1)print}')"
+# remove stopped containers
+alias rm_exited="docker ps -q -f status=exited | xargs --no-run-if-empty docker rm"
+# stop & remove containers
+alias stop_rm="docker ps -q -a | xargs docker stop && docker ps -q -a | xargs docker rm"
+# docker inspect
+#docker container inspect -f '{{ .State.StartedAt }}' $CID
+#docker inspect -f '{{ .Created }}' $CID
 
 # disk usage
 #alias ducks='du -cks ${1}* | sort -rn | head'
@@ -185,7 +193,7 @@ alias moer='more'
 ########## SHARED FUNCTIONS ##########
 # parses past history files defined for keyword
 histgrep() {
-    grep -P $@ ~/.bash_history
+    grep -P "$@" ~/.bash_history
 }
 
 count_loc() {
@@ -206,7 +214,7 @@ sshfingerprint() {
     local ourfile="$1"
     local algos=(md5 sha1 sha256)
 
-    for i in ${algos[@]}; do 
+    for i in "${algos[@]}"; do 
         echo "$i"
         ssh-keygen -l -E $i -f $ourfile
     done
@@ -292,6 +300,12 @@ if [[ $OSTYPE =~ "linux" ]]; then
     unset color_prompt force_color_prompt
 
     ########## LINUX SPECIFIC ALIASES ##########
+
+    # if running Ubuntu set a specific alias
+    if [[ $(lsb_release -i) =~ (Debian|Ubuntu) ]]; then
+        install_kept_back='sudo apt-get --with-new-pkgs upgrade'
+    fi
+
     # enable color support of ls and also add handy aliases
     if [ -x /usr/bin/dircolors ]; then
         test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
