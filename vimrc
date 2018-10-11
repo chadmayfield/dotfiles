@@ -22,6 +22,9 @@ endif
 "    set t_ut=
 "endif
 
+" fix error; "E45: 'readonly' option is set (add ! to override)"
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
 "let g:hybrid_custom_term_colors = 1
 "let g:hybrid_reduced_contrast = 1 
 colorscheme hybrid             " set colorcheme
