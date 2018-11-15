@@ -35,6 +35,7 @@
 # source files if exist
 if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
 if [ -f /etc/global_bashrc ]; then . /etc/global_bashrc; fi
+if [ -f "${HOME}/.secrets" ]; then . "${HOME}/.secrets"; fi
 
 ########## EXPORTS ##########
 export PAGER=less
@@ -45,39 +46,14 @@ export MANPAGER='less -X'
 export LESS_TERMCAP_md="$(tput bold; tput setaf 3)"
 
 # directory bookmarks, used with cdable_vars, use $HOME, not ~
-#export dotfiles="~/.dot_files"
-#export repos="~/Code/myrepos"
-#export docs="~/Documents"
-#export dropbox="~/Dropbox"
+export repos="$HOME/Documents/Code"
+export docs="$HOME/Documents"
+export downloads="$HOME/Downloads"
+export dropbox="$HOME/Dropbox"
 
 # use en-US and UTF-8
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
-
-# export provider api: virustotal
-if [ -s ~/.secrets/VIRUSTOTAL ]; then
-    export VT_KEY=$(cat ~/.secrets/VIRUSTOTAL)
-fi
-
-# export provider api key: digital ocean
-if [ -s ~/.secrets/API_KEY_DO ]; then
-    export DO_KEY=$(cat ~/.secrets/API_KEY_DO)
-fi
-
-# export provider api key: vultr
-if [ -s ~/.secrets/API_KEY_VULTR ]; then
-    export VULTR_KEY=$(cat ~/.secrets/API_KEY_VULTR)
-fi
-
-# export provider api key: apache cloudstack
-if [ -s ~/.secrets/API_KEY_CLOUDSTACK ]; then
-    export CLOUDSTACK_KEY=$(cat ~/.secrets/API_KEY_CLOUDSTACK)
-fi
-
-# export api key: ipinfo.io
-if [ -s ~/.secrets/API_KEY_IPINFO ]; then
-    export IPINFO_KEY=$(cat ~/.secrets/API_KEY_IPINFO)
-fi
 
 # prevent overwriting of files via stdout redirection (>) to force use '>|'
 set -o noclobber
@@ -124,7 +100,7 @@ alias ccurl='curl -C -'              # continue xfer & auto find were to start
 # git-ish/dev aliases
 #alias listagents=$(find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null)
 # count lines of code in git repo (like: https://github.com/AlDanial/cloc)
-alias repostatus="cd ~/Code/myrepos/ && ./myrepos_status.sh && cd -"
+alias repostatus="cd $repos && ./myrepos_status.sh && cd -"
 alias listkeys='for k in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${k}"; done | uniq | sort -r'
 
 # get current ip
@@ -163,21 +139,21 @@ alias crap='sudo $(history -p \!\!)'
 
 # vagrant aliases
 alias vagrant_vm='vagrant --provider=vsphere'
-alias vagrant_vultr='vagrant --provider=vUltr'
+alias vagrant_vultr='vagrant --provider=vultr'
 alias vagrant_do='vagrant --provider=digitalocean'
 
 # a ton of ls aliases
 #alias la='ls -A'
 #alias l='ls -CF'
 #alias ll="ls -lhA"
-#alias la='ls -Al'                # ls: show hidden files
-#alias lx='ls -lXB'               # ls: sort by extension
-#alias lk='ls -lSr'               # ls: sort by size
-#alias lc='ls -lcr'               # ls: sort by change time  
-#alias lu='ls -lur'               # ls: sort by access time   
-#alias lr='ls -lR'                # ls: recursive ls
-#alias lt='ls -ltr'               # ls: sort by date
-#alias lm='ls -al | more'         # ls: pipe through 'more'
+#alias la='ls -Al'            # ls: show hidden files
+#alias lx='ls -lXB'           # ls: sort by extension
+#alias lk='ls -lSr'           # ls: sort by size
+#alias lc='ls -lcr'           # ls: sort by change time  
+#alias lu='ls -lur'           # ls: sort by access time   
+#alias lr='ls -lR'            # ls: recursive ls
+#alias lt='ls -ltr'           # ls: sort by date
+#alias lm='ls -al | more'     # ls: pipe through 'more'
 #alias lo="ls -o"
 
 # deal with misspellings
@@ -233,24 +209,24 @@ genkey() {
     ssh-keygen -o -a 128 -t ed25519 -C "$genkey_host"
 }
 
-# shared ssh-agent, inspired by (https://stackoverflow.com/a/18915067)
-oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
-
-# is $SSH_AUTH_SOCK set
-if [ -z "$SSH_AUTH_SOCK" ]; then
-    export SSH_AUTH_SOCK=$oursock
-else
-    # it is, but check to make sure it's not keyring
-    if ! [ "$SSH_AUTH_SOCK" = $oursock ]; then
-        export SSH_AUTH_SOCK=$oursock
-    fi
-fi
-
-# if we don't have a socket, start ssh-agent
-if [ ! -S "$SSH_AUTH_SOCK" ]; then
-    eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
-    echo $SSH_AGENT_PID > $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid
-fi
+## shared ssh-agent, inspired by (https://stackoverflow.com/a/18915067)
+#oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
+#
+## is $SSH_AUTH_SOCK set
+#if [ -z "$SSH_AUTH_SOCK" ]; then
+#    export SSH_AUTH_SOCK=$oursock
+#else
+#    # it is, but check to make sure it's not keyring
+#    if ! [ "$SSH_AUTH_SOCK" = $oursock ]; then
+#        export SSH_AUTH_SOCK=$oursock
+#    fi
+#fi
+#
+## if we don't have a socket, start ssh-agent
+#if [ ! -S "$SSH_AUTH_SOCK" ]; then
+#    eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
+#    echo $SSH_AGENT_PID > $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid
+#fi
 
 ## recreate pid
 #if [ -z $SSH_AGENT_PID ]; then
@@ -413,6 +389,11 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     ########## EXPORTS ##########
     # set term color to 256
     TERM="xterm-256color"
+
+    # go development
+    GOPATH="$HOME/Documents/Code/go"
+    GOROOT="$HOME/Documents/Code/go"
+    PATH="${PATH}:/usr/local/opt/go/libexec/bin"
 
     ########## PROMPT ##########
     # default macOS Sierra prompt: 'hostname:~ username$ '
