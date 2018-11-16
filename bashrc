@@ -391,9 +391,8 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     TERM="xterm-256color"
 
     # go development
-    GOPATH="$HOME/Documents/Code/go"
-    GOROOT="$HOME/Documents/Code/go"
-    PATH="${PATH}:/usr/local/opt/go/libexec/bin"
+    export GOPATH="$HOME/Documents/Code/go"
+    export PATH="${PATH}:/usr/local/opt/go/libexec/bin"
 
     ########## PROMPT ##########
     # default macOS Sierra prompt: 'hostname:~ username$ '
