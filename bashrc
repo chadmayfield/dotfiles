@@ -278,8 +278,10 @@ if [[ $OSTYPE =~ "linux" ]]; then
     ########## LINUX SPECIFIC ALIASES ##########
 
     # if running Ubuntu set a specific alias
-    if [[ $(lsb_release -i) =~ (Debian|Ubuntu) ]]; then
+    if [ ! -f /etc/redhat-release ]; then
+#    if [[ $(lsb_release -i) =~ (Debian|Ubuntu) ]]; then
         install_kept_back='sudo apt-get --with-new-pkgs upgrade'
+#    fi
     fi
 
     # enable color support of ls and also add handy aliases
