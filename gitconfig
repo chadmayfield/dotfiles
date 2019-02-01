@@ -77,7 +77,7 @@
     st = status
     w = whatchanged
     df = diff
-    lg = log
+#    lg = log
     info = config --list
     summary = log --oneline
     pom = push origin master
@@ -86,6 +86,22 @@
     #tags = tag -n1 -l
     #pop = !git stash apply && git stash clear
     #staged = diff --cached
+	
+	# https://stackoverflow.com/a/9074343
+	# https://stackoverflow.com/a/34467298
+    lg = !"git lg1"
+    lg1 = !"git lg1-specific --all"
+    lg2 = !"git lg2-specific --all"
+    lg3 = !"git lg3-specific --all"
+    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+	
+	# https://stackoverflow.com/a/15562953
+	# https://github.com/jwiegley/git-scripts/blob/master/git-forest
+	#tree = "forest --pretty=format:\"%C(red)%h %C(magenta)(%ar) %C(blue)%an %C(reset)%s\" --style=15 --reverse"
+	
+	# https://stackoverflow.com/a/22481650 (Also good, but unused)	
 
 [push]
     default = simple

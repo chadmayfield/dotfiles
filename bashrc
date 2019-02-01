@@ -292,6 +292,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
 
     #alias ls='ls -hF --color'     # ls: add colors for filetype recognition
     #alias df="df -Tha --total"     # show all
+    alias dfh="df -h -x tmpfs -x devtmpfs | grep -v '/var/lib/docker'"
     alias df="df -Tha --total | grep -E --color=never 'Type|ext*|cifs|nfs' | grep -v aufs"
     alias free="free -mt"          # always show MB and Total
     alias tmux="tmux -2"           # force tmux to use 256 colors
@@ -451,3 +452,9 @@ else
 fi 
 
 #EOF
+
+PATH="/Users/chad/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/chad/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/chad/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/chad/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/chad/perl5"; export PERL_MM_OPT;
