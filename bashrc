@@ -109,6 +109,11 @@ alias listkeys='for k in $(find ~/.ssh/ -name *.pub); do ssh-keygen -l -f "${k}"
 alias myip="curl -s https://api.ipify.org"
 #alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
+# pi-hole aliases ($pihole is in .secrets)
+#alias pihole_stats="$(curl -s http://${pihole}/admin/api.php?summaryRaw | jq)"
+#alias pihole_blocked="$(curl -s http://${pihole}/admin/api.php?summaryRaw | grep -Po '"ads_blocked_today":.*?[^\\]",')"
+#alias pihole_percent="$(curl -s http://${pihole}/admin/api.php?summaryRaw | sed -nE '/ads_percentage_today/{s/.*:\s*"(.*)",/\1/p;q}')"
+
 # docker specific aliases
 # prune docker images
 alias prune="docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi"
@@ -302,6 +307,11 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ports='netstat -nape --inet'
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
 
+    #rsync -avzh /home/user/path/to/file -e ssh user@server:/path/to/file
+    alias topshot='top -n 1 -b > ${HOME}/$(hostname -f)-top-snapshot-$(date +%Y%m%d_%H%M%S).txt'
+    #alias ss="scrot '%Y-%m-%d_$wx$h_scrot.png' -e 'mv $f ~/Pictures/'"
+    alias ss='import -window root -resize 1280x1024 -delay 200 ${HOME}/$(hostname -f)-screenshot-$(date +%Y%m%d_%H%M%S).png'
+
     # alias to remove host key from known_hosts
     #alias removekey="if [ ! $1 ]; then echo "ERROR: You must specify a hostname/IP to remove!"; else ssh-keygen -R $1 fi"
     #alias removekey="if [ ! $1 ]; then echo "Enter a known_hosts line number to remove."; else sed -i "${1}d" ~/.ssh/known_hosts; fi"
@@ -452,9 +462,3 @@ else
 fi 
 
 #EOF
-
-PATH="/Users/chad/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/chad/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/chad/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/chad/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/chad/perl5"; export PERL_MM_OPT;
