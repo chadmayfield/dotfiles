@@ -23,11 +23,6 @@ dotfiles=( vim
            tmux.conf
            hushlogin )
 
-secretfiles=( github
-              API_KEY_DO
-              API_KEY_VULTR
-              API_KEY_CLOUDSTACK )
-
 install() {
     read -p "WARNING: You are about to overwrite existing files in your home directory. Are you sure? (y/n)" -n 1
 
@@ -40,8 +35,10 @@ install() {
     # loop through array and create symlinks to non-dot named file
     for i in ${dotfiles[@]}
     do
-        # make a backup to be safe"
-        mv ~/.${i} $backupdir
+        if [ -e "~/.${i}" ]; then
+            # make a backup to be safe
+            mv ~/.${i} $backupdir
+        fi
 
         # create symlink from original file/dir to git repo
         ln -sf $(pwd)/${i} ~/.${i}
@@ -55,13 +52,6 @@ install() {
 
         # chmod file to 0644, can change in future
         #chmod -R 0644 $i
-    done
-
-    # TODO: populate file with user provided keys
-    for i in ${secretfiles[@]}
-    do
-        # create the file, we can add to it later
-        touch ${secretsdir}/${i} 
     done
 
     echo "done! successfully installed dot files"

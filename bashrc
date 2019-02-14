@@ -297,7 +297,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
 
     #alias ls='ls -hF --color'     # ls: add colors for filetype recognition
     #alias df="df -Tha --total"     # show all
-    alias dfh="df -h -x tmpfs -x devtmpfs | grep -v '/var/lib/docker'"
+    alias dfh="df -h -x tmpfs -x devtmpfs | grep -vE '/var/lib/docker|loop'"
     alias df="df -Tha --total | grep -E --color=never 'Type|ext*|cifs|nfs' | grep -v aufs"
     alias free="free -mt"          # always show MB and Total
     alias tmux="tmux -2"           # force tmux to use 256 colors
