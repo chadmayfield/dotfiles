@@ -424,6 +424,9 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     # open pdf/png/jpg/tiff/gif/bmp with Preview from Terminal
 #    alias preview='if [ $# -ne 1 ]; then echo "ERROR: You must supply a file to open in Preview.app!"; else $(open -a Preview.app $1); fi'
 
+    # show battery percentage
+    alias battery="pmset -g batt | egrep \"([0-9]+\%).*\" -o | cut -f1 -d';'"
+
     # get wifi connection history
     alias wifihistory="defaults read /Library/Preferences/SystemConfiguration/com.apple.airport.preferences | grep LastConnected -A7"
 
