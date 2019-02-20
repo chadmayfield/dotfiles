@@ -129,6 +129,9 @@ alias stop_rm="docker ps -q -a | xargs docker stop && docker ps -q -a | xargs do
 #docker container inspect -f '{{ .State.StartedAt }}' $CID
 #docker inspect -f '{{ .Created }}' $CID
 
+# kubernetes specific alias
+#alias getnodeports="kubectl get svc --all-namespaces -o go-template='{{range .items}}{{range.spec.ports}}{{if .nodePort}}{{.nodePort}}{{.}}{{"\n"}}{{end}}{{end}}{{end}}'"
+
 # disk usage
 #alias ducks='du -cks ${1}* | sort -rn | head'
 alias ducks="find . -printf '%s %p\n'| sort -nr | head -10"
