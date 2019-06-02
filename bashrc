@@ -406,9 +406,15 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     # set term color to 256
     TERM="xterm-256color"
 
+    # disable brew analytics
+    export HOMEBREW_NO_ANALYTICS=1
+
     # go development
     export GOPATH="$HOME/Documents/Code/go"
-    export PATH="${PATH}:/usr/local/opt/go/libexec/bin"
+    export GOROOT=/usr/local/opt/go/libexec
+#    export PATH="${PATH}:/usr/local/opt/go/libexec/bin"
+    export PATH=$PATH:$GOPATH/bin
+    export PATH=$PATH:$GOROOT/bin
 
     ########## PROMPT ##########
     # default macOS Sierra prompt: 'hostname:~ username$ '
@@ -434,9 +440,8 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     alias wifihistory="defaults read /Library/Preferences/SystemConfiguration/com.apple.airport.preferences | grep LastConnected -A7"
 
     # get the weather
-    alias weathershort="finger o:84096@graph.no"
-    alias weather="finger 84096@graph.no"
-    #alias weather="finger saltlakecity@graph.no"
+    alias weathershort="finger o:SaltLakeCity@graph.no"
+    alias weather="finger ^SaltLakeCity@graph.no"
     alias icloud="~/Library/Mobile\ Documents/com~apple~CloudDocs/"
 
     # john the ripper
