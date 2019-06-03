@@ -96,6 +96,8 @@ alias rm='rm -i'                    # interactive to avoid accidental rm
 alias mkdir="mkdir -pv"
 alias grep='grep --color=auto'
 alias ccurl='curl -C -'              # continue xfer & auto find were to start
+alias topfive='ps aux | sort -nrk 3,3 | head -n 5'
+alias home_du="du -h ~ | grep '[0-9\.]\+G'"
 
 # git-ish/dev aliases
 #alias listagents=$(find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null)
@@ -309,6 +311,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ping='ping -c 10'        # make default count 10
     alias ports='netstat -nape --inet'
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
+    alias gettusage='ps -p $(ps hf -o pid -C terminus | head -n1) -o %cpu,%mem,cmd'
 
     #rsync -avzh /home/user/path/to/file -e ssh user@server:/path/to/file
     alias topshot='top -n 1 -b > ${HOME}/$(hostname -f)-top-snapshot-$(date +%Y%m%d_%H%M%S).txt'
