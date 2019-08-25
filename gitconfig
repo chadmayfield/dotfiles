@@ -86,7 +86,11 @@
     #tags = tag -n1 -l
     #pop = !git stash apply && git stash clear
     #staged = diff --cached
-	
+
+    # https://stackoverflow.com/a/33342393
+    # easier merge develop into feature branch
+    fr = "!f() { git fetch && git rebase origin/$1; }; f"
+
 	# https://stackoverflow.com/a/9074343
 	# https://stackoverflow.com/a/34467298
     lg = !"git lg1"

@@ -419,6 +419,12 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
     export PATH=$PATH:$GOPATH/bin
     export PATH=$PATH:$GOROOT/bin
 
+    export PATH="/Users/chad/perl5/bin${PATH:+:${PATH}}"; export PATH;
+    export PERL5LIB="/Users/chad/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+    export PERL_LOCAL_LIB_ROOT="/Users/chad/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+    export PERL_MB_OPT="--install_base \"/Users/chad/perl5\""; export PERL_MB_OPT;
+    export PERL_MM_OPT="INSTALL_BASE=/Users/chad/perl5"; export PERL_MM_OPT;
+
     ########## PROMPT ##########
     # default macOS Sierra prompt: 'hostname:~ username$ '
     # PS1='\h:\W \u\$ '
