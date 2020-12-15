@@ -1,0 +1,251 @@
+# install.yml - install dotfiles
+
+# author  : Chad Mayfield (chad@chd.my)
+# license : gplv3
+---
+- name: Install dotfiles and other software
+  hosts: localhost
+  become: false
+
+  vars:
+    platform: "{{ ansible_system | lower }}"
+
+    brew_packages:
+      - tmux
+      - git-lfs
+      - git-flow
+      - git-cal
+      - gh
+      - kubernetes-cli
+      - minikube
+      - k3sup
+      - faas-cli
+      - octant
+      #- xhyve
+      - mkdocs
+      - certbot
+      - shellcheck
+      - coreutils
+      - dos2unix
+      - xz
+      - p7zip
+      - jq
+      - yq
+      - icdiff
+      #- colordiff
+      - packer
+      - upx
+      - nmap
+      - wget
+      - mosh
+      - youtube-dl
+      - speedtest
+      - ffmpeg
+      - jhead
+      - imagemagick
+      #- aircrack-ng
+      #- hydra
+      #- john
+      #- "maliceio/tap/malice"
+
+    brew_cask_packages:
+      - virtualbox
+      - vagrant
+      - vagrant-manager
+
+    go_arch_map:
+      i386: i386
+      x86_64: amd64
+      armv6l: armv6l
+      armv7l: armv6l
+    
+    arch: "{{ go_arch_map[ansible_architecture] }}"
+    # ansible_userspace_architecture doesn't work on raspberry pi
+    #arch: "{{ ansible_system|lower }}-{{ go_arch_map[ansible_userspace_architecture] }}"
+
+    #go_pkg_locations:
+    #  - "{{ GOPATH }}/bin"
+    #  - "{{ GOPATH }}/pkg"
+    #  - "{{ GOPATH }}/src"
+
+  pre_tasks:
+    - name: Check if brew is installed
+      stat:
+        path: /usr/local/bin/brew
+      register: brew_installed
+      when: platform == "darwin"
+
+    - name: Install brew if it isn't installed
+      shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      when: not brew_installed.stat.exists and platform == "darwin"
+
+  tasks:
+    #################################################################
+    # Update Homebrew and install packages
+    #################################################################
+
+    # https://docs.ansible.com/ansible/2.9/modules/homebrew_module.html
+    # https://docs.brew.sh/
+    - name: Update brew
+      homebrew:
+        update_homebrew: true
+      when: platform == "darwin"
+
+    - name: Upgrade all brew packages
+      homebrew:
+        upgrade_all: true
+      register: result
+      until: result is not failed
+      when: platform == "darwin"
+
+    - name: Install new brew packages
+      homebrew:
+        name: "{{ brew_packages }}"
+        state: present
+      register: result
+      until: result is not failed
+      when: platform == "darwin"
+
+    #################################################################
+    # Install addaitional packages (outside of brew or other pkgmgrs)
+    #################################################################
+
+    # TODO: install arkade
+    #curl -sLS https://dl.get-arkade.dev | sudo sh
+
+    #################################################################
+    # Install (or update) latest version of go
+    #################################################################
+
+    - name: Get latest version of go
+      uri:
+        url: https://golang.org/VERSION?m=text
+        return_content: yes
+      register: go_version
+
+    - name: Check if go is already installed
+      command: /usr/local/go/bin/go version
+      ignore_errors: yes
+      register: go_exists
+      changed_when: false
+
+    - set_fact:
+        filetype: "{{ 'pkg' if platform == 'darwin' else 'tar.gz' }}"
+        go_latest: "{{ go_version.content }}"
+
+    - set_fact:
+        go_archive: "{{ go_latest }}.{{ platform }}-{{ arch }}.{{ filetype }}"
+
+    - name: Remove previously installed version of go
+      file:
+        path: /usr/local/go
+        state: absent
+      become: true
+      when: go_exists is failed or go_exists.stdout.split()[2] != go_latest
+
+    - name: Download go archive
+      get_url:
+        url: "https://dl.google.com/go/{{ go_archive }}"
+        dest: "/tmp/{{ go_archive }}"
+      when: go_exists is failed or go_exists.stdout.split()[2] != go_latest
+
+    - name: Install go archive (linux)
+      unarchive:
+        src: "/tmp/{{ go_archive }}"
+        dest: /usr/local
+        copy: no
+      become: true
+      when:
+        - go_exists is failed or go_exists.stdout.split()[2] != go_latest
+        - platform != "darwin"
+
+    - name: Install go package (macos)
+      command: "installer -pkg /tmp/{{ go_archive }} -target /usr/local/"
+      become: true
+      when: 
+        - go_exists is failed or go_exists.stdout.split()[2] != go_latest
+        - platform == "darwin"
+
+    - name: Check if go.sh already file exists
+      stat:
+        path: /etc/profile.d/go.sh
+      register: go_sh
+
+    - name: Create profile.d scriptlet
+      copy:
+        content: "#!/bin/bash"
+        dest: "/etc/profile.d/go.sh"
+      when: go_sh.stat.exists == false and platform != "darwin"
+
+    - name: Export GOPATH in profile.d
+      blockinfile:
+        path: /etc/profile.d/go.sh
+        marker: " "
+        insertafter: "#!/bin/bash"
+        block: |
+          export PATH=$PATH:/usr/local/go/bin
+          export GOPATH=$HOME/go
+          export PATH=$GOPATH/bin:$PATH
+      when: go_sh.stat.exists == false and platform != "darwin"
+
+    - name: Export GOPATH in /etc/profile
+      blockinfile:
+        path: /etc/profile
+        marker: " "
+        insertbefore: "EOF"
+        state: present
+        block: |
+          export PATH=$PATH:/usr/local/go/bin
+          export GOPATH=$HOME/go
+          export PATH=$GOPATH/bin:$PATH
+      become: true
+      when: platform == "darwin"
+
+    #################################################################
+    # Install all dotfiles/dotdirs into users home directory
+    #################################################################
+
+    - name: Find all dotfiles to install
+      find:
+        paths: .
+        recurse: no
+        hidden: yes
+        file_type: file
+        use_regex: yes
+        patterns: ['^\/?(?:\w+\/)*(\.\w+)']
+        excludes: '.git$,.gitignore'
+      register: dotfiles
+
+    - name: Find all dotdirs to install
+      find:
+        paths: .
+        recurse: no
+        hidden: yes
+        file_type: directory
+        use_regex: yes
+        patterns: ['^\/?(?:\w+\/)*(\.\w+)']
+        excludes: '.git$'
+      register: dotdirs
+
+    - name: Copy all dotfiles to user's home directory
+      copy:
+        src: "{{ item }}"
+        dest: "{{ lookup('env', 'HOME') }}"
+        owner: "{{ lookup('env', 'USER') }}"
+        mode: 0644
+        backup: yes
+      loop: "{{ dotfiles.files | map(attribute='path') | list }}"
+
+    - name: Copy all dotdirs to user's home directory
+      synchronize:
+        src: "{{ item }}"
+        dest: "{{ lookup('env', 'HOME') }}"
+        recursive: yes
+      loop: "{{ dotdirs.files | map(attribute='path') | list }}"
+
+    #################################################################
+    # Change macOS system settings
+    #################################################################
+
+    # show "unsupported" network drives (for non-Apple Time Machines) 
+    #defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes 1
