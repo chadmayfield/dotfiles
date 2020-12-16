@@ -1,14 +1,25 @@
 ---
-dist: xenial
-
 language: python
 
-branches:
-  only:
-    - master
+sudo: required
 
-before_install:
-  - sudo apt-get update -qq
+jobs:
+  include:
+    # https://docs.travis-ci.com/user/reference/overview/#linux
+    - name: Linux Test
+      os: linux
+      dist: focal
+      before_install:
+        - sudo apt-get update -qq
+
+    # https://docs.travis-ci.com/user/reference/osx/
+    - name: macOS Test
+      os: osx
+      osx_image: xcode12.2
+
+#branches:
+#  only:
+#    - master
 
 install:
   - pip3 install ansible
