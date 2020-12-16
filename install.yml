@@ -10,45 +10,6 @@
   vars:
     platform: "{{ ansible_system | lower }}"
 
-    brew_packages:
-      - tmux
-      - git-lfs
-      - git-flow
-      - git-cal
-      - gh
-      - kubernetes-cli
-      - minikube
-      - k3sup
-      - faas-cli
-      - octant
-      #- xhyve
-      - mkdocs
-      - certbot
-      - shellcheck
-      - coreutils
-      - dos2unix
-      - tree
-      - xz
-      - p7zip
-      - jq
-      - yq
-      - icdiff
-      #- colordiff
-      - packer
-      - upx
-      - nmap
-      - wget
-      - mosh
-      - youtube-dl
-      - speedtest-cli
-      - ffmpeg
-      - jhead
-      - imagemagick
-      #- aircrack-ng
-      #- hydra
-      #- john
-      #- "maliceio/tap/malice"
-
     brew_cask_packages:
       - docker
       - firefox
@@ -108,8 +69,9 @@
 
     - name: Install new brew packages
       homebrew:
-        name: "{{ brew_packages }}"
+        name: "{{ item.split()[1] }}"
         state: present
+      with_lines: cat Brewfile | grep -v "#"
       register: result
       until: result is not failed
       when: platform == "darwin"
