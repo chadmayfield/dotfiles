@@ -27,6 +27,7 @@
       - shellcheck
       - coreutils
       - dos2unix
+      - tree
       - xz
       - p7zip
       - jq
@@ -49,9 +50,16 @@
       #- "maliceio/tap/malice"
 
     brew_cask_packages:
+      - docker
+      - firefox
+      - lastpass
+      - slack
+      - spotify
       - virtualbox
       - vagrant
       - vagrant-manager
+      - virtualbox-extension-pack
+      - visual-studio-code
 
     go_arch_map:
       i386: i386
@@ -105,6 +113,14 @@
       register: result
       until: result is not failed
       when: platform == "darwin"
+
+#    - name: Install new brew cask packages
+#      homebrew_cask:
+#        name: "{{ brew_cask_packages }}"
+#        state: present
+#      register: result
+#      until: result is not failed
+#      when: platform == "darwin"
 
     #################################################################
     # Install addaitional packages (outside of brew or other pkgmgrs)
