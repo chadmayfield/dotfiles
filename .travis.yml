@@ -37,4 +37,4 @@ script:
   - ansible-playbook install.yml
   - go version
   - source ~/.bashrc
-  - alias weather >/dev/null 2>&1 && echo "weather alias found" || echo "weather is not an alias" && exit 1
+  - alias weather >/dev/null 2>&1 && exit 0 || echo "alias not found" && exit 1

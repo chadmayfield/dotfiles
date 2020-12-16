@@ -40,7 +40,7 @@
       - wget
       - mosh
       - youtube-dl
-      - speedtest
+      - speedtest-cli
       - ffmpeg
       - jhead
       - imagemagick
