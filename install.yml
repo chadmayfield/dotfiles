@@ -191,6 +191,7 @@
       copy:
         content: "#!/bin/bash"
         dest: "/etc/profile.d/go.sh"
+      become: true
       when: go_sh.stat.exists == false and platform != "darwin"
 
     - name: Export GOPATH in profile.d
@@ -202,6 +203,7 @@
           export PATH=$PATH:/usr/local/go/bin
           export GOPATH=$HOME/go
           export PATH=$GOPATH/bin:$PATH
+      become: true
       when: go_sh.stat.exists == false and platform != "darwin"
 
     - name: Export GOPATH in /etc/profile

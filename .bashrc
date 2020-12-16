@@ -312,6 +312,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
     alias ports='netstat -nape --inet'
     alias ns='netstat -alnp --protocol=inet | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
     alias gettusage='ps -p $(ps hf -o pid -C terminus | head -n1) -o %cpu,%mem,cmd'
+    alias weather="finger ^SaltLakeCity@graph.no"
 
     #rsync -avzh /home/user/path/to/file -e ssh user@server:/path/to/file
     alias topshot='top -n 1 -b > ${HOME}/$(hostname -f)-top-snapshot-$(date +%Y%m%d_%H%M%S).txt'
