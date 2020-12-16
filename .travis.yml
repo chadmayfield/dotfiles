@@ -32,4 +32,4 @@ notifications:
 
 script:
 #  - ansible-playbook install.yml --syntax-check
-  - ansible-playbook install.yml
+  - "cd chadmayfield/dotfiles && ansible-playbook install.yml"
