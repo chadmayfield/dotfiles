@@ -1,6 +1,5 @@
 ---
 language: python
-
 sudo: required
 
 jobs:
@@ -9,6 +8,7 @@ jobs:
     - name: Linux Test
       os: linux
       dist: focal
+      virt: vm
       before_install:
         - sudo apt-get update -qq
 
@@ -16,6 +16,7 @@ jobs:
     - name: macOS Test
       os: osx
       osx_image: xcode12.2
+      language: shell
 
 #branches:
 #  only:
@@ -23,6 +24,11 @@ jobs:
 
 install:
   - pip3 install ansible
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
 
 script:
 #  - ansible-playbook install.yml --syntax-check
