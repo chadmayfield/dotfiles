@@ -8,15 +8,17 @@ jobs:
     - name: Linux install test
       os: linux
       dist: focal
-      virt: lxd
-      before_install:
-        - sudo apt-get update -qq
+      virt: vm
 
-    ## https://docs.travis-ci.com/user/reference/osx/
-    #- name: macOS install test
-    #  os: osx
-    #  osx_image: xcode12.2
-    #  language: shell
+    # https://docs.travis-ci.com/user/reference/osx/
+    - name: macOS install test
+      os: osx
+      osx_image: xcode12.2
+      language: shell
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update && brew upgrade; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; fi
 
 #branches:
 #  only:
@@ -32,7 +34,7 @@ notifications:
 
 script:
   #- ansible-playbook install.yml --syntax-check
-  - travis_wait 30 ansible-playbook install.yml
+  - ansible-playbook install.yml
   - go version
   - source ~/.bashrc
   - alias weather >/dev/null 2>&1 && echo "weather alias found" || echo "weather is not an alias" && exit 1
