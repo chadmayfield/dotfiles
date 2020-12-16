@@ -1,9 +1,6 @@
 ---
 dist: xenial
-env:
-  global:
-    - PATH=/opt/python/3.7.1/bin:$PATH
-                
+
 language: python
 
 branches:
@@ -18,4 +15,4 @@ install:
 
 script:
 #  - ansible-playbook install.yml --syntax-check
-  - ansible-playbook install.yml --connection=local --sudo
+  - ansible-playbook install.yml
