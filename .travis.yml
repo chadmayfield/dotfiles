@@ -5,15 +5,15 @@ sudo: required
 jobs:
   include:
     # https://docs.travis-ci.com/user/reference/overview/#linux
-    - name: Linux Test
+    - name: Linux install test
       os: linux
       dist: focal
-      virt: vm
+      virt: lxd
       before_install:
         - sudo apt-get update -qq
 
     # https://docs.travis-ci.com/user/reference/osx/
-    - name: macOS Test
+    - name: macOS install test
       os: osx
       osx_image: xcode12.2
       language: shell
@@ -31,8 +31,8 @@ notifications:
     on_success: never
 
 script:
-#  - ansible-playbook install.yml --syntax-check
-  - tavis_wait 30 nsible-playbook install.yml
+  #- ansible-playbook install.yml --syntax-check
+  - travis_wait 30 ansible-playbook install.yml
   - go version
   - source ~/.bashrc
   - alias weather >/dev/null 2>&1 && echo "weather alias found" || echo "weather is not an alias" && exit 1
