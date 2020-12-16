@@ -1,6 +1,10 @@
 ---
+dist: xenial
+env:
+  global:
+    - PATH=/opt/python/3.7.1/bin:$PATH
+                
 language: python
-python: "2.7"
 
 branches:
   only:
@@ -10,7 +14,7 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - pip install ansible
+  - pip3 install ansible
 
 script:
 #  - ansible-playbook install.yml --syntax-check
