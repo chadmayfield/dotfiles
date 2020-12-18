@@ -21,7 +21,8 @@ server:
 steps:
 - name: build
   commands:
-  - ansible-playbook install.yml
+  - whoami
+  #- ansible-playbook install.yml
 
 trigger:
   branch:
