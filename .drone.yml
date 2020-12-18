@@ -1,0 +1,28 @@
+---
+kind: pipeline
+type: digitalocean
+name: default
+
+token:
+  from_secret: token
+
+platform:
+  os: linux
+  arch: amd64
+  
+#clone:
+#  depth: 50
+
+server:
+  image: ubuntu-20-04-x64
+  size: s-1vcpu-1gb
+  region: sfo3
+
+steps:
+- name: build
+  commands:
+  - ansible-playbook install.yml
+
+trigger:
+  branch:
+  - master
