@@ -30,8 +30,7 @@ steps:
   - apt-get -qq upgrade -y
   - apt-get -qq install -y ansible python3 python3-pip python3-venv
   - ansible-playbook install.yml
-  #- source ~/.bashrc
-  #- source /etc/profile.d/go.sh
+  - bash
   - go version
   - alias weather >/dev/null 2>&1 && exit 0 || echo "alias not found" && exit 1
 

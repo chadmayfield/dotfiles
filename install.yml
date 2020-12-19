@@ -193,7 +193,7 @@
         file_type: file
         use_regex: yes
         patterns: ['^\/?(?:\w+\/)*(\.\w+)']
-        excludes: '.git$,.gitignore'
+        excludes: '.git$,.gitignore,.drone.yml,.travis.yml'
       register: dotfiles
 
     - name: Find all dotdirs to install
