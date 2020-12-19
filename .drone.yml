@@ -15,14 +15,23 @@ platform:
 
 server:
   image: ubuntu-20-04-x64
-  size: s-1vcpu-1gb
+  #image: debian-10-x64
+  #image: centos-7-x64
+  #image: fedora-33-x64
+  #size: s-1vcpu-1gb
+  #size: s-1vcpu-2gb
+  #size: s-2vcpu-2gb
+  size: s-2vcpu-4gb
   region: sfo3
 
 steps:
 - name: build
   commands:
   - whoami
-  #- ansible-playbook install.yml
+  - sudo apt-get update -y
+  - sudo apt-get upgrade -y
+  - sudo apt-get install ansible -y
+  - ansible-playbook install.yml
 
 trigger:
   branch:
