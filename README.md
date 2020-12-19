@@ -6,7 +6,6 @@ These are my customizations for Linux and macOS systems, my dotfiles.
 
 Over the years I've had many different dotfiles, too many. So I created this repo as my obligatory location to house my customizations. However, it fell by the wayside and has not received much love. As I have time (which isn't likely) I'll be pruning it and adding to it from systems I currently have.
 
-
 ## Install
 Installation of these files is accomplished with ansible. The only requirement for this repo is ansible. Once ansible is installed you can install this with;
 ```
