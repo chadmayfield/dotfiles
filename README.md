@@ -1,6 +1,6 @@
 # dotfiles
 
-[![Build Status](https://2a5d68700812.ngrok.io/api/badges/chadmayfield/dotfiles/status.svg)](https://2a5d68700812.ngrok.io/chadmayfield/dotfiles)
+[![Build Status](https://drone.chadmayfield.com/api/badges/chadmayfield/dotfiles/status.svg)](https://drone.chadmayfield.com/chadmayfield/dotfiles)
 
 These are my customizations for Linux and macOS systems, my dotfiles.
 
@@ -24,6 +24,7 @@ This will ask for the sudo password to do things like install/remove go or updat
 
 ## TODO
 (as of 12/16/2020)
+- [ ] Fix build script to run in a container rather than on digitalocean.
 - [ ] Create and add an uninstall playbook.
 - [ ] Start populating .zshrc with zsh specific code.
 - [ ] Write tests for .bashrc to make sure they all still work!
