@@ -20,16 +20,18 @@ server:
   #image: fedora-33-x64
   #size: s-1vcpu-1gb
   #size: s-1vcpu-2gb
-  #size: s-2vcpu-2gb
-  size: s-2vcpu-4gb
+  size: s-2vcpu-2gb
+  #size: s-2vcpu-4gb
   region: sfo3
 
 steps:
 - name: build
   commands:
+  - add-apt-repository ppa:ansible/ansible -y && apt-get update -y -qq 
   - apt-get update -y
   - apt-get upgrade -y
-  - apt install ansible
+  - apt install python3 python3-pip python3-venv
+  - DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ansible --option "Dpkg::Options::=--force-confold"
   - ansible-playbook install.yml
 
 trigger:
