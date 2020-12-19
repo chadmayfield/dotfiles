@@ -27,10 +27,9 @@ server:
 steps:
 - name: build
   commands:
-  - whoami
-  - sudo apt-get update -y
-  - sudo apt-get upgrade -y
-  - sudo apt-get install ansible -y
+  - apt-get update -y
+  - apt-get upgrade -y
+  - apt install ansible
   - ansible-playbook install.yml
 
 trigger:
