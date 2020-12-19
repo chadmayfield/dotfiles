@@ -27,11 +27,13 @@ server:
 steps:
 - name: build
   commands:
-  - add-apt-repository ppa:ansible/ansible -y && apt-get update -y -qq 
-  - apt-get update -y
+  - apt-get update -y -qq
+  - apt-add-repository --yes --update ppa:ansible/ansible -y
+  - apt-get update -y -qq 
   - apt-get upgrade -y
   - apt install python3 python3-pip python3-venv
-  - DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ansible --option "Dpkg::Options::=--force-confold"
+  #- DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ansible --option "Dpkg::Options::=--force-confold"
+  - apt-get install ansible
   - ansible-playbook install.yml
 
 trigger:
