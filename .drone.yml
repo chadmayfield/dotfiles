@@ -10,9 +10,6 @@ platform:
   os: linux
   arch: amd64
   
-#clone:
-#  depth: 50
-
 server:
   #image: ubuntu-20-04-x64
   image: ubuntu-18-04-x64
@@ -28,11 +25,15 @@ server:
 steps:
 - name: build
   commands:
-  - apt-get update -y -qq 
-  - apt-get upgrade -y
-  - apt install -y python3 python3-pip python3-venv
-  - apt-get install -y ansible
+  - apt-mark hold linux-image-generic linux-headers-generic
+  - apt-get -qq update -y
+  - apt-get -qq upgrade -y
+  - apt-get -qq install -y ansible python3 python3-pip python3-venv
   - ansible-playbook install.yml
+  - source ~/.bashrc
+  - source /etc/profile.d/go.sh
+  - go version
+  - alias weather >/dev/null 2>&1 && exit 0 || echo "alias not found" && exit 1
 
 trigger:
   branch:
