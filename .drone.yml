@@ -14,9 +14,9 @@ platform:
 #  depth: 50
 
 server:
-  image: ubuntu-20-04-x64
+  #image: ubuntu-20-04-x64
   #image: debian-10-x64
-  #image: centos-7-x64
+  image: centos-7-x64
   #image: fedora-33-x64
   #size: s-1vcpu-1gb
   #size: s-1vcpu-2gb
@@ -27,13 +27,15 @@ server:
 steps:
 - name: build
   commands:
-  - apt-get update -y -qq
-  - apt-add-repository --yes --update ppa:ansible/ansible -y
-  - apt-get update -y -qq 
-  - apt-get upgrade -y
-  - apt install python3 python3-pip python3-venv
+  #- apt-get update -y -qq
+  #- apt-add-repository --yes --update ppa:ansible/ansible -y
+  #- apt-get update -y -qq 
+  #- apt-get upgrade -y
+  #- apt install python3 python3-pip python3-venv
   #- DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ansible --option "Dpkg::Options::=--force-confold"
-  - apt-get install ansible
+  #- apt-get install ansible
+  - yum update -y
+  - yum install ansible -y
   - ansible-playbook install.yml
 
 trigger:
