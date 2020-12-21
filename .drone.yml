@@ -26,7 +26,9 @@ platform:
 
 steps:
 - name: build
-  image: alpine
+  #image: geerlingguy/docker-ubuntu1604-ansible:latest
+  #image: geerlingguy/docker-ubuntu1804-ansible:latest
+  image: geerlingguy/docker-ubuntu2004-ansible:latest
   pull: if-not-exists
   commands:
   #- apt-mark hold linux-image-generic linux-headers-generic
