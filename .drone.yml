@@ -26,6 +26,8 @@ platform:
 
 steps:
 - name: build
+  image: alpine
+  pull: if-not-exists
   commands:
   #- apt-mark hold linux-image-generic linux-headers-generic
   - apt-get -qq update -y
