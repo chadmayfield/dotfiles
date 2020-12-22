@@ -1,6 +1,6 @@
 # dotfiles
 
-[![Build Status](https://drone.chadmayfield.com/api/badges/chadmayfield/dotfiles/status.svg)](https://drone.chadmayfield.com/chadmayfield/dotfiles)
+[![Build Status](https://drone.chadmayfield.com/api/badges/chadmayfield/dotfiles/status.svg?ref=refs/heads/main)](https://drone.chadmayfield.com/chadmayfield/dotfiles)
 
 These are my customizations for Linux and macOS systems, my dotfiles.
 
