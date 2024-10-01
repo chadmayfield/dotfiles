@@ -1,4 +1,4 @@
-# ~/.gitconfig - 
+# ~/.gitconfig -
 #
 # author  : Chad Mayfield (chad@chd.my)
 # license : gplv3
@@ -6,25 +6,52 @@
 [user]
 	name = Chad Mayfield
 	email = chad@chd.my
-    editor = vim
+  editor = vim
 
-    # https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
-    signingkey = B86463C6
+  # https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work
+  # https://bit.ly/3zmR5Dv
+  signingkey = 3DF652D4EACD24BC
+  #signingkey = B0BF6DA7B7878294
 
-# include github username/token
-[include]
-    path = ~/.github
+[alias]
+    br = branch
+    co = checkout
+    ci = commit
+    st = status
+    w = whatchanged
+    df = diff
+    info = config --list
+    summary = log --oneline
+    pom = push origin master
+    graph = log --graph --oneline --decorate
+    changes = log --oneline --reverse
+    #tags = tag -n1 -l
+    #pop = !git stash apply && git stash clear
+    #staged = diff --cached
 
-[core]
-    pager = less -FRSX
-    whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    # https://stackoverflow.com/a/33342393
+    # easier merge develop into feature branch
+    fr = "!f() { git fetch && git rebase origin/$1; }; f"
+
+    # https://stackoverflow.com/a/9074343
+    # https://stackoverflow.com/a/34467298
+    lg = !"git lg1"
+    lg1 = !"git lg1-specific --all"
+    lg2 = !"git lg2-specific --all"
+    lg3 = !"git lg3-specific --all"
+    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+
+    # https://stackoverflow.com/a/15562953
+    # https://github.com/jwiegley/git-scripts/blob/master/git-forest
+    #tree = "forest --pretty=format:\"%C(red)%h %C(magenta)(%ar) %C(blue)%an %C(reset)%s\" --style=15 --reverse"
+
+    # https://stackoverflow.com/a/22481650 (Also good, but unused)
 
 [apply]
     whitespace = fix    # warn & fix whitespace errors (%trailing wspace)
     #whitespace = nowarn # warn only
-
-#[http]
-#    sslVerify = false
 
 # GIT_COLORS ##########################
 #   as of commit 17a4be2, git supports 24-bit RGB color values. here are
@@ -66,55 +93,32 @@
     deleted = cyan dim
     nobranch = red dim
 
+[commit]
+    gpgsign = true
+
+[core]
+    pager = less -FRSX
+    whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+
 [diff]
     renamelimit = 0
-    renames = copy    # makes diff shorter when moving/copying files
-
-[alias] 
-    br = branch
-    co = checkout
-    ci = commit
-    st = status
-    w = whatchanged
-    df = diff
-#    lg = log
-    info = config --list
-    summary = log --oneline
-    pom = push origin master
-    graph = log --graph --oneline --decorate
-    changes = log --oneline --reverse
-    #tags = tag -n1 -l
-    #pop = !git stash apply && git stash clear
-    #staged = diff --cached
-
-    # https://stackoverflow.com/a/33342393
-    # easier merge develop into feature branch
-    fr = "!f() { git fetch && git rebase origin/$1; }; f"
-
-	# https://stackoverflow.com/a/9074343
-	# https://stackoverflow.com/a/34467298
-    lg = !"git lg1"
-    lg1 = !"git lg1-specific --all"
-    lg2 = !"git lg2-specific --all"
-    lg3 = !"git lg3-specific --all"
-    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
-    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
-	
-	# https://stackoverflow.com/a/15562953
-	# https://github.com/jwiegley/git-scripts/blob/master/git-forest
-	#tree = "forest --pretty=format:\"%C(red)%h %C(magenta)(%ar) %C(blue)%an %C(reset)%s\" --style=15 --reverse"
-	
-	# https://stackoverflow.com/a/22481650 (Also good, but unused)	
-
-[push]
-    default = simple
+    renames = copy        # makes diff shorter when moving/copying files
 
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+
+[http]
+    sslVerify = true
+
+# include github username/token
+[include]
+    path = ~/.github
 
 [mergetool]
 	keepBackup = true
+
+[push]
+    default = simple

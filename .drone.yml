@@ -11,7 +11,7 @@ platform:
   os: linux
   arch: amd64
   #arch: arm64
-  
+
 server:
   #image: ubuntu-20-04-x64
   image: ubuntu-18-04-x64

@@ -7,8 +7,7 @@ HEART_EMPTY=♡
 [ -z "$NUM_HEARTS" ] &&
     NUM_HEARTS=5
 
-cutinate()
-{
+cutinate() {
     perc=$1
     inc=$(( 100 / $NUM_HEARTS))
 
@@ -23,15 +22,13 @@ cutinate()
     done
 }
 
-linux_get_bat ()
-{
+linux_get_bat () {
     bf=$(cat $BAT_FULL)
     bn=$(cat $BAT_NOW)
     echo $(( 100 * $bn / $bf ))
 }
 
-freebsd_get_bat ()
-{
+freebsd_get_bat () {
     echo "$(sysctl -n hw.acpi.battery.life)"
 
 }
@@ -40,8 +37,7 @@ freebsd_get_bat ()
 
 # TODO Identify which machine we're on from teh script.
 
-battery_status()
-{
+battery_status() {
 case $(uname -s) in
     "Linux")
         BATPATH=/sys/class/power_supply/BAT0
@@ -107,7 +103,7 @@ case $(uname -s) in
 esac
 }
 
-BATTERY_STATUS=`battery_status $1`
+BATTERY_STATUS=$(battery_status $1)
 [ -z "$BATTERY_STATUS" ] && exit
 
 if [ -n "$CUTE_BATTERY_INDICATOR" ]; then
@@ -115,4 +111,3 @@ if [ -n "$CUTE_BATTERY_INDICATOR" ]; then
 else
     echo ${BATTERY_STATUS}%
 fi
-

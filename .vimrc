@@ -1,4 +1,4 @@
-" ~/.vimrc: personal vim initializations 
+" ~/.vimrc: personal vim initializations
 
 " author  : Chad Mayfield (chad@chd.my)
 " license : gplv3
@@ -26,7 +26,7 @@ endif
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 "let g:hybrid_custom_term_colors = 1
-"let g:hybrid_reduced_contrast = 1 
+"let g:hybrid_reduced_contrast = 1
 colorscheme hybrid             " set colorcheme
 set background=dark            " use dark background
 "set background=light          " use light background
@@ -70,7 +70,7 @@ noremap ; :                    " set ; as and alias
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
 " provide visual feedback for paste toggle see http://bit.ly/2ppWaTl
-nnoremap <F2> :set invpaste paste?<CR>  
+nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>                " toggle :set paste/:set nopaste on/off
 set showmode
 

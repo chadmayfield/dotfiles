@@ -27,7 +27,7 @@
       x86_64: amd64
       armv6l: armv6l
       armv7l: armv6l
-    
+
     arch: "{{ go_arch_map[ansible_architecture] }}"
     # ansible_userspace_architecture doesn't work on raspberry pi
     #arch: "{{ ansible_system|lower }}-{{ go_arch_map[ansible_userspace_architecture] }}"
@@ -140,7 +140,7 @@
     - name: Install go package (macos)
       command: "installer -pkg /tmp/{{ go_archive }} -target /usr/local/"
       become: true
-      when: 
+      when:
         - go_exists is failed or go_exists.stdout.split()[2] != go_latest
         - platform == "darwin"
 
