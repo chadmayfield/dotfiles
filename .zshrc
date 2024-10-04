@@ -20,7 +20,7 @@ alias gd='git diff'
 # export environment vars
 export EDITOR='vim'
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
-export HISTFILE=$HOME/.zsh_history
+export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
 
